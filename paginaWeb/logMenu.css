@@ -1,16 +1,14 @@
-#menuBox, #loginBox, #signInBox {
-    position: absolute;  /* Se superponen sobre el container */
-    top: 50%;            /* Centrado vertical */
-    left: 50%;           /* Centrado horizontal */
-    transform: translate(-50%, -50%); /* Ajuste exacto al centro */
-    width: 100%;
-    max-width: 300px;    /* Mantener el tamaño máximo */
-    z-index: 3;
-}
+
 body{
-    background-color: rgb(30, 2, 37);
+    background-image: url("imagenes/background.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 
 }
+
+
 
 /* Contenedor relativo para que los aside se posicionen correctamente */
 
@@ -53,6 +51,37 @@ aside img {
     display: block;
     object-fit: cover;
     box-shadow: 20px 0 30px rgba(0, 0, 0, 0.5);
+    
+}
+
+#menuBox, #loginBox, #signInBox {
+    position: absolute;  /* Se superponen sobre el container */
+    top: 50%;            /* Centrado vertical */
+    left: 50%;           /* Centrado horizontal */
+    transform: translate(-50%, -50%); /* Ajuste exacto al centro */
+    width: 100%;
+    max-width: 300px;    /* Mantener el tamaño máximo */
+    z-index: 3;
+}
+#loginBox ,#signInBox {
+    display: none; /* Mostrar loginBox por defecto */
+}
+
+.btn-secondary {
+    background-color: rgb(86, 14, 154);
+}
+.btn-secondary:hover {
+    background-color: rgb(120, 20, 215);
+    border-color: rgb(120, 20, 215);
+    transform: scale(1.05);
+}
+.btn-primary {
+    background-color: rgb(7, 16, 107);
+}
+.btn-primary:hover {
+    background-color: rgb(12, 25, 160);
+    border-color: rgb(12, 25, 160);
+    transform: scale(1.05);
 }
 
 /* opcional: ocultar laterales en pantallas muy pequeñas para evitar solapamientos */
