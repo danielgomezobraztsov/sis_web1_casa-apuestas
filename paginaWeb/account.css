@@ -1,0 +1,81 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.app-dark-bg {
+    background-color: #1a1a1a;
+    color: white;
+    border-bottom: 1px solid #333;
+}
+
+.btn-header-outline {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #333;
+}
+
+.btn-header-outline:hover {
+    background-color: #333;
+    border-color: #444;
+}
+
+.btn-header-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.card {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.form-label {
+    color: #a0a0a0;
+}
+
+.form-control {
+    background-color: #252525;
+    color: #e0e0e0;
+    border: 1px solid #333;
+}
+
+.form-control:focus {
+    background-color: #333;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, .25);
+}
+
+.avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #252525;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #333;
+}
+
+.avatar img {
+    display: none;
+}
+
+.avatar.has-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar.has-image svg {
+    display: none;
+}
+
+.avatar svg.ph {
+    fill: none;
+    stroke: #a0a0a0;
+}
