@@ -1,0 +1,61 @@
+#menuBox, #loginBox, #signInBox {
+    position: absolute;  /* Se superponen sobre el container */
+    top: 50%;            /* Centrado vertical */
+    left: 50%;           /* Centrado horizontal */
+    transform: translate(-50%, -50%); /* Ajuste exacto al centro */
+    width: 100%;
+    max-width: 300px;    /* Mantener el tamaño máximo */
+    z-index: 3;
+}
+body{
+    background-color: rgb(30, 2, 37);
+
+}
+
+/* Contenedor relativo para que los aside se posicionen correctamente */
+
+
+/* Ajustar altura de la imagen hasta el inicio del formulario */
+:root{
+    --menu-max-width: 300px;
+    --aside-width: 500px;
+    --menu-half: calc(var(--menu-max-width) / 2);
+}
+
+
+
+/* ocupar todo el alto de la pantalla */
+aside {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: var(--aside-width); /* coincide con tu ancho lateral */
+    overflow: hidden; 
+    z-index: 2;
+}
+
+/* colocar los asides pegados al menu centrado (asumiendo max-width del menú) */
+.aside2 { /* izquierda */
+    left: calc(50% - var(--menu-half) - var(--aside-width));
+
+}
+
+.aside1 { /* derecha */
+    right: calc(50% - var(--menu-half) - var(--aside-width));
+        transform: translateX(60px)
+
+}
+
+/* imagen a toda la altura de la ventana */
+aside img {
+    height: 100vh;
+    width: auto;
+    display: block;
+    object-fit: cover;
+    box-shadow: 20px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* opcional: ocultar laterales en pantallas muy pequeñas para evitar solapamientos */
+@media (max-width: 480px) {
+    .aside1, .aside2 { display: none; }
+}

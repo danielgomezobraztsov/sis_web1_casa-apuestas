@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>logMenu</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Tu CSS -->
+        <link rel="stylesheet" href="logMenu.css">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+        <!-- Tu JS -->
+        <script src="logMenu.js" defer></script>
+    </head>
+    <body >
+
+        <div class="container vh-100 position-relative">
+
+            <!-- Menú inicial -->
+            <div class="card text-center p-4 mb-3" id="menuBox">
+                <h2 class="mb-3">Bienvenido</h2>
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-secondary" id="btnSignIn">Sign-in</button>
+                    <button type="button" class="btn btn-secondary" id="btnLogIn">Log-in</button>
+                    <button type="button" class="btn btn-secondary" id="btnGuest">Log-in as Guest</button>
+                </div>
+            </div>
+
+            <aside class = "aside1">
+                <img src="imagenes/logMenuAside1.jpg" alt="imagenAside" >
+            </aside>
+
+            <aside class = aside2>
+                <img src="imagenes/logMenuAside2.jpg" alt="imagenAside" >
+            </aside>
+            
+
+
+            <!-- Formularios -->
+            <div id="formContainer" class="w-100" style="max-width: 400px;">
+                <!-- Log-in -->
+                <div class="card p-4 mb-3" id="loginBox" style="display:none;">
+                    <h2 class="mb-3 text-center">Log-in</h2>
+                    <!--Datos a rellenar en login -->
+                    <form id="loginForm" action="index.html" method="GET">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre de usuario:</label>
+                            <input type="text" class="form-control" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Acceder</button>
+                            <button type="button" class="btn btn-secondary btnAtras">Atrás</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Sign-in -->
+                <div class="card p-4 mb-3" id="signInBox" style="display:none;">
+                    <h2 class="mb-3 text-center">Sign-in</h2>
+                    <!-- Datos a rellenar en el registro -->
+                    <form id="signInForm" action="index.html" method="GET">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Nombre de usuario:</label>
+                            <input type="text" class="form-control" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Apellidos:</label>
+                            <input type="text" class="form-control" name="surname" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar contraseña:</label>
+                            <input type="password" class="form-control" name="confirm_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha de nacimiento:</label>
+                            <input type="date" class="form-control" name="dob" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                            <button type="button" class="btn btn-secondary btnAtras">Atrás</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
