@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>logMenu</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Tu CSS -->
+        <link rel="stylesheet" href="../css/logMenu.css">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+        <!-- Tu JS -->
+        <script src="../Js/logMenu.js" defer></script>
+    </head>
+    <body >
+
+        <div class="container vh-100 position-relative">
+
+            <!-- Menú inicial -->
+            <div class="card text-center p-4 mb-3" id="menuBox">
+                <h2 class="mb-3">Bienvenido</h2>
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-secondary" id="btnLogIn">Log-in</button>
+                    <button type="button" class="btn btn-secondary" id="btnSignIn" >Sing-in</button>
+                    <button type="button" class="btn btn-secondary" id="btnGuest">Log-in as Guest</button>
+                </div>
+            </div>
+
+            <aside class = "aside1">
+                <img src="../imagenes/logMenuAside1.jpg" alt="imagenAside" >
+            </aside>
+
+            <aside class = aside2>
+                <img src="../imagenes/logMenuAside2.jpg" alt="imagenAside" >
+            </aside>
+            
+
+
+            <!-- Formularios -->
+            <div id="formContainer" class="w-100" style="max-width: 400px;">
+                <!-- Log-in -->
+                <div class="card p-4 mb-3" id="loginBox">
+                    <h2 class="mb-3 text-center">Log-in</h2>
+                    <!--Datos a rellenar en login -->
+                    <form id="loginForm" action="index.html" method="GET">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre de usuario:</label>
+                            <input type="text" class="form-control" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Acceder</button>
+                            <button type="button" class="btn btn-secondary btnAtras">Atrás</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Sign-in -->
+                <div class="card p-4 mb-3" id="signInBox">
+                    <h2 class="mb-3 text-center">Sign-in</h2>
+                    <!-- Datos a rellenar en el registro -->
+                    <form id="signInForm" action="index.html" method="GET">
+                        
+                        <div class="mb-3">
+                            <label for ="userName"class="form-label">Nombre de usuario:</label>
+                            <input id= "userName" type="text" class="form-control" name="userName" required>
+                            <div class="text-danger small error" id="errorUserName"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label  for="firstName" class="form-label">Nombre:</label>
+                            <input  id="firstName" type="text" class="form-control" name="firstName" required>
+                            <div class="text-danger small error" id="errorFirstName"></div>
+
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Apellidos:</label>
+                            <input id="lastName" type="text" class="form-control" name="lastName" required>
+                            <div class="text-danger small error" id="errorLastName"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input id="email" type="email" class="form-control" name="email" required>
+                            <div class="text-danger small error" id="errorEmail"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña:</label>
+                            <input id="password" type="password" class="form-control" name="password" required>
+                            <div class="text-danger small error" id="errorPassword"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordConfirm" class="form-label">Confirmar contraseña:</label>
+                            <input id="passwordConfirm" type="password" class="form-control" name="confirm_password" required>
+                            <div class="text-danger small error" id="errorPasswordConfirm"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Fecha de nacimiento:</label>
+                            <input id="date" type="date" class="form-control" name="dob" required>
+                            <div class="text-danger small error" id="errorDate"></div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                            <button type="button" class="btn btn-secondary btnAtras">Atrás</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
