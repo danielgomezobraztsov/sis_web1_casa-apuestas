@@ -13,10 +13,11 @@ header.app-dark-bg {
     color: white;
     border-bottom: 1px solid #333;
 }
+
 aside.app-dark-bg {
-    background-color: #1a1a1ae9 ;
+    background-color: #1a1a1ae9;
     border-right: 1px solid #333333fe;
-    min-width:220px;
+    min-width: 220px;
     max-width: 220px;
 }
 
@@ -39,17 +40,19 @@ aside.app-dark-bg {
     border-color: rgb(120, 20, 215);
     color: white;
 }
+
 .btn-header-primary:hover {
     background-color: rgb(86, 14, 154);
     border-color: rgb(53, 9, 94);
     transform: scale(1.05);
 }
 
-#btnChangePhoto{
+#btnChangePhoto {
     background-color: rgb(53, 9, 94);
     border-color: rgb(86, 14, 154);
     color: white;
 }
+
 #btnChangePhoto:hover {
     background-color: rgb(86, 14, 154);
     border-color: rgb(120, 20, 215);
@@ -111,4 +114,25 @@ aside.app-dark-bg {
 .avatar svg.ph {
     fill: none;
     stroke: #a0a0a0;
+}
+
+/* Cards game UI */
+#cardsGameUI {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    color: #e0e0e0;
+}
+
+#cardsMsg {
+    color: #ffd;
+}
+.text-muted {
+    color: #efebeb !important;
+}
+canvas#userCanvas {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.12));
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
 }

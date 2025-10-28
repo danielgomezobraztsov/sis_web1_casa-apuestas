@@ -13,6 +13,7 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
         <script src="../Js/account.js" defer></script>
+        <script src="../Js/cardsGame.js" defer></script>
     </head>
 
     <body>
@@ -117,7 +118,17 @@
                     <!-- Columna derecha: canvas -->
                     <div class="col-lg-6">
                         <aside class="CanvasAside card p-3 h-100">
-                            <canvas id="userCanvas" width="300" height="300"></canvas>
+                            <canvas id="userCanvas" width="600" height="350"></canvas>
+                            <div id="cardsGameUI" class="mt-3 d-flex flex-column align-items-center">
+                                <div class="mb-2 w-100 d-flex justify-content-between align-items-center">
+                                    <div class="text-muted">Nivel: <span id="cardsLevel">1</span></div>
+                                </div>
+                                <div class="d-flex gap-2 w-100">
+                                    <button id="btnPlayCards" class="btn btn-header-primary flex-grow-1">Jugar Carta Tramposa</button>
+                                    <button id="btnResetCards" class="btn btn-header-outline">Reiniciar</button>
+                                </div>
+                                <div id="cardsMsg" class="mt-2 small text-center" style="min-height:1.2em;color:#f8f9fa"></div>
+                            </div>
                         </aside>
                     </div>
                 </div>
