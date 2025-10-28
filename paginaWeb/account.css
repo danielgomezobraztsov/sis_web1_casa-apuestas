@@ -1,33 +1,64 @@
 body {
     background-color: #121212;
     color: #e0e0e0;
+    background-image: url("imagenes/background.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.app-dark-bg {
+header.app-dark-bg {
     background-color: #1a1a1a;
     color: white;
     border-bottom: 1px solid #333;
 }
+aside.app-dark-bg {
+    background-color: #1a1a1ae9 ;
+    border-right: 1px solid #333333fe;
+    min-width:220px;
+    max-width: 220px;
+}
 
+
+/* Estilos para los botones */
 .btn-header-outline {
-    background-color: transparent;
+    background-color: rgb(39, 21, 56);
     color: #ffffff;
     border: 1px solid #333;
 }
 
 .btn-header-outline:hover {
-    background-color: #333;
+    background-color: rgb(55, 29, 79);
     border-color: #444;
+    transform: scale(1.05);
 }
 
 .btn-header-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: rgb(120, 20, 215);
+    border-color: rgb(120, 20, 215);
     color: white;
 }
+.btn-header-primary:hover {
+    background-color: rgb(86, 14, 154);
+    border-color: rgb(53, 9, 94);
+    transform: scale(1.05);
+}
 
+#btnChangePhoto{
+    background-color: rgb(53, 9, 94);
+    border-color: rgb(86, 14, 154);
+    color: white;
+}
+#btnChangePhoto:hover {
+    background-color: rgb(86, 14, 154);
+    border-color: rgb(120, 20, 215);
+    transform: scale(1.05);
+}
+
+/* Estilos para las tarjetas y formularios */
 .card {
-    background-color: #1a1a1a;
+    background-color: #1a1a1ae0;
     border: 1px solid #333;
     color: #e0e0e0;
 }
@@ -47,6 +78,8 @@ body {
     border-color: #007bff;
     box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, .25);
 }
+
+/* Estilos para el avatar */
 
 .avatar {
     width: 96px;

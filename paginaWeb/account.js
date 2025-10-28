@@ -1,80 +1,114 @@
-const $ = (id)=>document.getElementById(id);
-const fileInput = $('fileInput');
-const avatarBox = $('avatarBox');
-const avatarImg = $('avatarImg');
-const previewBox = $('previewBox');
-const previewImg = $('previewImg');
-const btnChangePhoto = $('btnChangePhoto');
-const form = $('userForm');
-const btnCancel = $('btnCancel');
-const btnDelete = $('btnDelete');
-
-
-btnChangePhoto.addEventListener('click', ()=> fileInput.click());
-
-fileInput.addEventListener('change', ()=>{
-    const [file] = fileInput.files || [];
-    if(!file) return;
-    const url = URL.createObjectURL(file);
-    avatarImg.src = url;
-    previewImg.src = url;
-    avatarBox.classList.add('has-image');
-    previewBox.classList.add('has-image');
-});
-
-btnCancel.addEventListener('click', ()=>{
-    form.reset();
-    fileInput.value = '';
-    avatarImg.removeAttribute('src');
-    previewImg.removeAttribute('src');
-    avatarBox.classList.remove('has-image');
-    previewBox.classList.remove('has-image');
-});
-
-form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    if(!validUserData()){
-        return;
-    }
-    alert('Información guardada');
-    // ...enviar por fetch() a tu backend si aplica...
-});
-
-btnDelete.addEventListener('click', ()=>{
-    if(confirm('¿Eliminar usuario? Esta acción no se puede deshacer.')){
-        alert('Usuario eliminado');
-        // ...llamar a tu backend para eliminar...
-    }
-});
-
 $(document).ready(() => {
-/*Validaciones de datos usuario*/
-    function validUserData() {
-        
-        let valid = true;
-        //limpiar errores
+    const fileInput = $('#fileInput');
+    const avatarBox = $('#avatarBox');
+    const avatarImg = $('#avatarImg');
+    const btnChangePhoto = $('#btnChangePhoto');
+    const form = $('#userForm');
+    const btnCancel = $('#btnCancel');
+    const btnDelete = $('#btnDelete');
+
+    // Cambiar foto
+    btnChangePhoto.on('click', () => fileInput.click());
+
+    fileInput.on('change', () => {
+        const file = fileInput[0].files[0];
+        if (!file) return;
+
+        const url = URL.createObjectURL(file);
+        avatarImg.attr('src', url);
+        avatarBox.addClass('has-image');
+    });
+
+    // Cancelar cambios
+    btnCancel.on('click', () => {
+        form[0].reset();
+        fileInput.val('');
+        avatarImg.removeAttr('src');
+        avatarBox.removeClass('has-image');
         $('.error').text('');
-        //obtener valores
-        const userName = $('#userName').val();
+    });
+
+    // Validar datos
+    function validUserData() {
+        let valid = true;
+        $('.error').text(''); // limpiar errores
+
+        const userName = $('#userName').val().trim();
         const firstName = $('#firstName').val().trim();
         const lastName = $('#lastName').val().trim();
         const email = $('#email').val().trim();
-        const date = $('#date');
         const password = $('#password').val().trim();
-        
-        //validar nombre
-        const valNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/
-        if (!valNombre.test(firstName)){
-            $('#errorFirstName').text('Solo puedes poner tu nombre, 1 palabra y que sean solo letras.');
+        const date = $('#date').val();
+
+        // Validar nombre
+        const valNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/;
+        if (!valNombre.test(firstName)) {
+            $('#errorFirstName').text('Solo puedes poner tu nombre (una palabra, solo letras).');
             valid = false;
         }
 
-        //validar apellido
-        const valApellido = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s+[A-Za-zÁÉÍÓÚáéíóúÑñ]+)$/;
-        if (!valApellido.test(lastName) || lastName.toLowerCase() === firstName.toLowerCase()){
-            $('#errorLastName').text('Tu apellido no puede ser igual a tu nombre o contener numeros o simbolos.');
+        // Validar apellido
+        const valApellido = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s+[A-Za-zÁÉÍÓÚáéíóúÑñ]+)?$/;
+        if (!valApellido.test(lastName) || lastName.toLowerCase() === firstName.toLowerCase()) {
+            $('#errorLastName').text('Tu apellido no puede ser igual al nombre ni contener números o símbolos.');
             valid = false;
         }
 
+        // Validar nombre de usuario
+        if (userName.length < 3) {
+            $('#errorUsername').text('El nombre de usuario debe tener al menos 3 caracteres.');
+            valid = false;
+        }
+
+        // Validar email
+        const valEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!valEmail.test(email)) {
+            $('#errorEmail').text('Introduce un correo válido.');
+            valid = false;
+        }
+
+        // Validar contraseña
+        if (password.length < 6) {
+            $('#errorPassword').text('La contraseña debe tener al menos 6 caracteres.');
+            valid = false;
+        }
+
+        // Validar fecha (opcional)
+        if (!date) {
+            $('#errorDate').text('Debes ingresar tu fecha de nacimiento.');
+            valid = false;
+        } else {
+            const birthDate = new Date(date);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            const adjustedAge = (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) ? age - 1 : age;
+
+            if (adjustedAge < 18) {
+                $('#errorDate').text('Debes tener al menos 18 años.');
+                valid = false;
+            }
+        }
+
+        return valid;
     }
+
+    // 🔹 Enviar formulario
+    form.on('submit', (e) => {
+        e.preventDefault();
+        if (!validUserData()) {
+            return;
+        }
+
+        alert('Información guardada correctamente ✅');
+        // Aquí podrías hacer un fetch() si tuvieras backend
+    });
+
+    // 🔹 Eliminar cuenta
+    btnDelete.on('click', () => {
+        if (confirm('¿Eliminar usuario? Esta acción no se puede deshacer.')) {
+            alert('Usuario eliminado');
+            // Aquí podrías hacer una llamada fetch() para eliminar en el backend
+        }
+    });
 });
