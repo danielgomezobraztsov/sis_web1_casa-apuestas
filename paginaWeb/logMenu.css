@@ -28,7 +28,7 @@ aside {
     top: 0;
     height: 100vh;
     width: var(--aside-width); /* coincide con tu ancho lateral */
-    overflow: hidden; 
+    overflow: hidden;
     z-index: 2;
 }
 
@@ -55,6 +55,7 @@ aside img {
 }
 
 #menuBox, #loginBox, #signInBox {
+    background-color: rgba(37, 36, 36, 0.873);
     position: absolute;  /* Se superponen sobre el container */
     top: 50%;            /* Centrado vertical */
     left: 50%;           /* Centrado horizontal */
@@ -66,9 +67,15 @@ aside img {
 #loginBox ,#signInBox {
     display: none; /* Mostrar loginBox por defecto */
 }
-
+.card h2,label{
+    color: white;
+}
 .btn-secondary {
     background-color: rgb(86, 14, 154);
+}
+.mb-3 input{
+    background-color: rgb(58, 57, 57);
+    color: white
 }
 .btn-secondary:hover {
     background-color: rgb(120, 20, 215);
