@@ -56,7 +56,7 @@ $(document).ready(() => {
 
         // Validar nombre de usuario
         if (userName.length < 3) {
-            $('#errorUsername').text('El nombre de usuario debe tener al menos 3 caracteres.');
+            $('#errorUserName').text('El nombre de usuario debe tener al menos 3 caracteres.');
             valid = false;
         }
 
