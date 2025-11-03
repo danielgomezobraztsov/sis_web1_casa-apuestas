@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GamblinHub - Inicio</title>
+  <link rel="icon" type="image/jpeg" href="favicon.jpeg">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- TU CSS -->
+  <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+  <div class="container-fluid min-vh-100 d-flex flex-column p-0">
+    <!-- Header -->
+    <header class="app-dark-bg d-flex justify-content-between align-items-center p-3">
+      <div class="fw-bold fs-4 text-gradient">GamblinHub</div>
+
+      <div class="d-flex gap-2 align-items-center">
+        <!-- Top search (única barra de búsqueda ahora) -->
+        <div class="input-group header-search me-3">
+          <input id="topSearchInput" type="text" class="form-control bg-dark text-white border-secondary" placeholder="Buscar eventos deportivos...">
+          <button id="topSearchBtn" class="btn btn-header-primary" type="button">Buscar</button>
+        </div>
+
+        <!-- Botones principales con redirección -->
+        <button class="btn btn-header-outline" id="btnResults">Ver Resultados</button>
+        <button class="btn btn-header-primary" id="btnGamble">Apostar</button>
+
+        <div class="dropdown ms-3">
+          <button class="btn btn-header-outline dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+            Profile
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+            <li><a class="dropdown-item" href="#">Log out</a></li>
+            <li><a class="dropdown-item" href="account.html">Cuenta</a></li>
+            <li><a class="dropdown-item" href="subscription.html">Subscripción</a></li>
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <button class="btn btn-header-outline dropdown-toggle" type="button" id="helpMenu" data-bs-toggle="dropdown" aria-expanded="false">
+            Ayuda
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="helpMenu">
+            <li><a class="dropdown-item" href="help.html">Ayuda</a></li>
+            <li><a class="dropdown-item" href="faq.html">Preguntas frecuentes</a></li>
+            <li><a class="dropdown-item" href="mailto:soporte@gamblinhub.org">Contactar soporte</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar + toggle button -->
+    <div class="results-sidebar" id="resultsSidebar">
+      <div class="results-content">
+        <h4 class="mb-3 text-center text-gradient">Resultados Recientes</h4>
+        <div class="result-item"><div class="sport-title">Fútbol</div><p>Real Madrid 3 - 1 Barcelona</p></div>
+        <div class="result-item"><div class="sport-title">Tenis</div><p>Nadal ganó 2-1 a Djokovic</p></div>
+        <div class="result-item"><div class="sport-title">Boxeo</div><p>Canelo vence por KO técnico</p></div>
+        <div class="result-item"><div class="sport-title">Baloncesto</div><p>Lakers 112 - 104 Warriors</p></div>
+        <div class="result-item"><div class="sport-title">E-Sports</div><p>Team Liquid derrota a Fnatic</p></div>
+      </div>
+    </div>
+
+    <button class="toggle-results" id="toggleResults"><span id="toggleIcon">‹</span></button>
+
+    <!-- Main content (sin barra de búsqueda central) -->
+    <main class="main-content" id="mainContent">
+      <div class="results-container">
+        <h2 class="mb-4 text-center">Novedades</h2>
+
+        <div class="ad-container">
+          <h4>🎯 Nuevas apuestas en vivo</h4>
+          <p>Descubre nuestras apuestas en tiempo real y gana más emoción.</p>
+          <!-- Explorar -> gamble.html -->
+          <button class="btn btn-header-primary" id="btnExplore">Explorar</button>
+        </div>
+
+        <div class="ad-container">
+          <h4>💎 Ofertas exclusivas</h4>
+          <p>Recompensas y beneficios solo para nuevos usuarios.</p>
+          <!-- Ofertas exclusivas -> subscription.html -->
+          <button class="btn btn-header-primary" id="btnOffers">Ver Ofertas</button>
+        </div>
+
+        <div class="ad-container">
+          <h4>🏆 Eventos destacados</h4>
+          <p>Consulta los eventos deportivos más esperados de la semana.</p>
+          <!-- Ver Eventos -> results.html -->
+          <button class="btn btn-header-primary" id="btnEvents">Ver Eventos</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-dark-bg text-center p-3 mt-auto">
+      <p class="mb-1">¿Tienes preguntas? Escríbenos a <a href="mailto:soporte@gamblinhub.org" class="text-primary fw-bold">soporte@gamblinhub.org</a></p>
+      <p class="mb-0 text-secondary">© 2025 GamblinHub</p>
+    </footer>
+  </div>
+
+  <!-- TU JS -->
+  <script src="../Js/index.js" defer></script>
+</body>
+</html>
