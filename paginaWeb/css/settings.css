@@ -1,15 +1,23 @@
 @import url('../css/account.css');
 
+.settings-card {
+    max-width: 800px;
+    width: 100%;
+}
+@media (max-width: 900px) {
+    .settings-card {
+        max-width: 98vw;
+        padding: 2rem 1rem;
+    }
+}
 .settings-nav .btn {
     margin-bottom: 16px;
 }
-
 .settings-font-input {
     background-color: #252525;
     color: #e0e0e0;
     border: 1px solid #333;
 }
-
 .card.app-dark-bg {
     background-color: #1a1a1ae0;
     border: 1px solid #333;
