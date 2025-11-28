@@ -32,18 +32,18 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Header buttons redirections
-  if (btnResults) btnResults.addEventListener('click', () => { window.location.href = 'results.html'; });
-  if (btnGamble) btnGamble.addEventListener('click', () => { window.location.href = 'gamble.html'; });
+  if (btnResults) btnResults.addEventListener('click', () => { window.location.href = '/results'; });
+  if (btnGamble) btnGamble.addEventListener('click', () => { window.location.href = '/gamble'; });
 
   // Ad buttons
-  if (btnExplore) btnExplore.addEventListener('click', () => { window.location.href = 'gamble.html'; });
-  if (btnOffers) btnOffers.addEventListener('click', () => { window.location.href = 'subscription.html'; });
-  if (btnEvents) btnEvents.addEventListener('click', () => { window.location.href = 'results.html'; });
+  if (btnExplore) btnExplore.addEventListener('click', () => { window.location.href = '/gamble'; });
+  if (btnOffers) btnOffers.addEventListener('click', () => { window.location.href = '/subscription'; });
+  if (btnEvents) btnEvents.addEventListener('click', () => { window.location.href = '/results'; });
 
   // Search action - redirect to results.html with query param
   function doSearch() {
     const q = topSearchInput.value.trim();
-    const target = 'results.html' + (q ? ('?q=' + encodeURIComponent(q)) : '');
+    const target = '/results' + (q ? ('?q=' + encodeURIComponent(q)) : '');
     window.location.href = target;
   }
 

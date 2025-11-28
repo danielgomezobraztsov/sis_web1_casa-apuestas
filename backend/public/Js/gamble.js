@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const topSignupBtn = document.querySelector(".account-actions .signup-btn");
   const topLoginBtn = document.querySelector(".account-actions .login-btn");
 
-  const logMenuRoute = "logMenu.html";
-  const homeRoute = "index.html";
-  const subscriptionsRoute = "subscription.html";
+  const logMenuRoute = "/logMenu";
+  const homeRoute = "/";
+  const subscriptionsRoute = "/subscription";
 
   const goTo = (route) => (window.location.href = route);
 

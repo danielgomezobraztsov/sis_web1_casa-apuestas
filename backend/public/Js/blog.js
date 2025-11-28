@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const logMenuRoute = "logMenu.html";
+  const logMenuRoute = "/logMenu";
   const goTo = (route) => (window.location.href = route);
 
   const signupBtn = document.querySelector('[data-action="signup"]');

@@ -31,7 +31,7 @@ app.use(cors());
 app.use(express.json());
 
 // Servir tu frontend desde /public
-// app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 //Actiivar las rutas
 app.use("/", indexRouter);

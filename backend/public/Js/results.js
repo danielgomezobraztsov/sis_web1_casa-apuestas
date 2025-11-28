@@ -88,6 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Botón volver
   btnBack.addEventListener('click', () => {
-    window.location.href = "index.html";
+    window.location.href = "/";
   });
 });

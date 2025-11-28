@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     // Log-in como invitado
     $("#btnGuest").click(function () {
-        window.location.href = "index.html";
+        window.location.href = "/"; //Nos lleva a index.ejs
     });
 
     // Botón Atrás (funciona para ambos formularios)
