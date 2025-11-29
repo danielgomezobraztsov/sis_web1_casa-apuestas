@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 // const logger = require("morgan");
 import logger from "morgan";
+import session from "express-session";
 
 import indexRouter from "./routes/index.js";
 import accountRouter from "./routes/account.js";
@@ -29,11 +30,17 @@ app.set("view engine", "ejs");
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(session({
+    secret:"secreto-super-seguro",
+    resave:false,
+    saveUninitialized:false, //No guarda usuarios que no han iniciado sesion
+    cookie:{ secure:false } // Cambiar a true si se usa https
+}))
 
 // Servir tu frontend desde /public
 app.use(express.static(path.join(__dirname, "../public")));
 
-//Actiivar las rutas
+//Activar las rutas
 app.use("/", indexRouter);
 app.use("/account", accountRouter);
 app.use("/blog", blogRouter);
