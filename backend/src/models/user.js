@@ -1,41 +1,41 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    username: {
+    userName: {
         type: String,
         required: true,
-        unique: true, // Asegura que no haya usuarios con el mismo nombre
-        trim: true, // Elimina espacios en blanco al inicio y al final
+        unique: true,   // Evita duplicados
+        trim: true
     },
     email: {
         type: String,
         required: true,
         unique: true,
         trim: true,
-        lowercase: true,
+        lowercase: true
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     nombre: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     apellidos: {
         type: String,
         required: true,
-        trim: true,
+        trim: true
     },
     fechaNacimiento: {
         type: Date,
-        required: true,
+        required: true
     },
-    balance: { // Saldo del usuario para apuestas
+    balance: {
         type: Number,
-        default: 0,
+        default: 0
     }
-}, { timestamps: true }); // timestamps agrega createdAt y updatedAt automáticamente
+}, { timestamps: true });
 
 export default mongoose.model("User", userSchema);

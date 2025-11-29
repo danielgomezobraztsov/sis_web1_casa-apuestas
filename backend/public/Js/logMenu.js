@@ -97,12 +97,11 @@ $(document).ready(function () {
 
     // Enviar formulario
     form.on('submit', (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         if (!validUserData()) {
-            return;
+            e.preventDefault();
         }
 
-        alert('Información guardada correctamente ✅');
-        // Aquí podrías hacer un fetch() si tuvieras backend
+        // alert('Información guardada correctamente');
     });
 });

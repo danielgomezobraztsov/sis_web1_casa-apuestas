@@ -65,49 +65,57 @@
                 <div class="card p-4 mb-3" id="signInBox">
                     <h2 class="mb-3 text-center">Sign-in</h2>
                     <!-- Datos a rellenar en el registro -->
-                    <form id="signInForm" action="/" method="GET">
-                        
-                        <div class="mb-3">
-                            <label for ="userName"class="form-label">Nombre de usuario:</label>
-                            <input id= "userName" type="text" class="form-control" name="userName" required>
-                            <div class="text-danger small error" id="errorUserName"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label  for="firstName" class="form-label">Nombre:</label>
-                            <input  id="firstName" type="text" class="form-control" name="firstName" required>
-                            <div class="text-danger small error" id="errorFirstName"></div>
+                    <form id="signInForm" action="/api/users/register" method="POST">
 
-                        </div>
-                        <div class="mb-3">
-                            <label for="lastName" class="form-label">Apellidos:</label>
-                            <input id="lastName" type="text" class="form-control" name="lastName" required>
-                            <div class="text-danger small error" id="errorLastName"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email:</label>
-                            <input id="email" type="email" class="form-control" name="email" required>
-                            <div class="text-danger small error" id="errorEmail"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña:</label>
-                            <input id="password" type="password" class="form-control" name="password" required>
-                            <div class="text-danger small error" id="errorPassword"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="passwordConfirm" class="form-label">Confirmar contraseña:</label>
-                            <input id="passwordConfirm" type="password" class="form-control" name="confirm_password" required>
-                            <div class="text-danger small error" id="errorPasswordConfirm"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Fecha de nacimiento:</label>
-                            <input id="date" type="date" class="form-control" name="dob" required>
-                            <div class="text-danger small error" id="errorDate"></div>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Registrarse</button>
-                            <button type="button" class="btn btn-secondary btnAtras">Atrás</button>
-                        </div>
-                    </form>
+            <div class="mb-3">
+                <label for="username" class="form-label">Nombre de usuario:</label>
+                <input id="username" type="text" class="form-control" name="username" required>
+                <div class="text-danger small error" id="errorUserName"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input id="nombre" type="text" class="form-control" name="nombre" required>
+                <div class="text-danger small error" id="errorFirstName"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="apellidos" class="form-label">Apellidos:</label>
+                <input id="apellidos" type="text" class="form-control" name="apellidos" required>
+                <div class="text-danger small error" id="errorLastName"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input id="email" type="email" class="form-control" name="email" required>
+                <div class="text-danger small error" id="errorEmail"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña:</label>
+                <input id="password" type="password" class="form-control" name="password" required>
+                <div class="text-danger small error" id="errorPassword"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="passwordConfirm" class="form-label">Confirmar contraseña:</label>
+                <input id="passwordConfirm" type="password" class="form-control" name="confirm_password" required>
+                <div class="text-danger small error" id="errorPasswordConfirm"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
+                <input id="fechaNacimiento" type="date" class="form-control" name="fechaNacimiento" required>
+                <div class="text-danger small error" id="errorDate"></div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Registrarse</button>
+                <button type="button" class="btn btn-secondary btnAtras">Atrás</button>
+            </div>
+
+        </form>
+
 
                 </div>
             </div>
