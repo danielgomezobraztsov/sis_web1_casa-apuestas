@@ -18,6 +18,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    nombre: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    apellidos: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    fechaNacimiento: {
+        type: Date,
+        required: true,
+    },
     balance: { // Saldo del usuario para apuestas
         type: Number,
         default: 0,
