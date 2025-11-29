@@ -16,6 +16,7 @@ import logMenuRouter from "./routes/logMenu.js";
 import resultsRouter from "./routes/results.js";
 import settingsRouter from "./routes/settings.js";
 import subscriptionRouter from "./routes/subscription.js";
+import apiUsers from "./routes/apiUsers.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.set("view engine", "ejs");
 
 // Middlewares
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
     secret:"secreto-super-seguro",
@@ -50,6 +52,7 @@ app.use("/logMenu", logMenuRouter);
 app.use("/results", resultsRouter);
 app.use("/settings", settingsRouter);
 app.use("/subscription", subscriptionRouter);
+app.use("/api/users", apiUsers);
 
 // Exportar app correctamente (esto soluciona el error)
 export default app;
