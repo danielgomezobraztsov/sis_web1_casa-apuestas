@@ -64,7 +64,7 @@
                                 <div class="row align-items-center mb-3">
                                     <label for="userName" class="col-4 col-form-label text-end">Nombre de usuario</label>
                                     <div class="col-8">
-                                        <input id="userName" name="userName" type="text" class="form-control" autocomplete="username" required>
+                                        <input id="userName" name="username" type="text" class="form-control" value="<%= user?.username %>" required>
                                         <div class="text-danger small error" id="errorUsername"></div>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                                 <div class="row align-items-center mb-3">
                                     <label for="firstName" class="col-4 col-form-label text-end">Nombre</label>
                                     <div class="col-8">
-                                        <input id="firstName" name="firstName" type="text" class="form-control" autocomplete="given-name" required>
+                                        <input id="firstName" name="nombre" type="text" class="form-control"  value="<%= user?.nombre %>" required>
                                         <div class="text-danger small error" id="errorFirstName"></div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                                 <div class="row align-items-center mb-3">
                                     <label for="lastName" class="col-4 col-form-label text-end">Apellido</label>
                                     <div class="col-8">
-                                        <input id="lastName" name="lastName" type="text" class="form-control" autocomplete="family-name" required>
+                                        <input id="lastName" name="apellidos" type="text" class="form-control" value="<%= user?.apellidos %>" required>
                                         <div class="text-danger small error" id="errorLastName"></div>
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
                                 <div class="row align-items-center mb-3">
                                     <label for="email" class="col-4 col-form-label text-end">Email</label>
                                     <div class="col-8">
-                                        <input id="email" name="email" type="email" class="form-control" autocomplete="email" required>
+                                        <input id="email" name="email" type="email" class="form-control" value="<%= user?.email %>" required>
                                         <div class="text-danger small error" id="errorEmail"></div>
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                                 <div class="row align-items-center mb-3">
                                     <label for="date" class="col-4 col-form-label text-end">Fecha de nacimiento</label>
                                     <div class="col-8">
-                                        <input id="date" name="date" type="date" class="form-control" required>
+                                        <input id="date" name="fechaNaciemto" type="date" class="form-control" value="<%= new Date(user.fechaNacimiento).toISOString().slice(0,10) %>" required>
                                         <div class="text-danger small error" id="errorDate"></div>
                                     </div>
                                 </div>
