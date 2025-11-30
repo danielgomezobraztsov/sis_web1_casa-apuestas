@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Scores</title>
+    <style>
+        body { font-family: Arial; background: #f7f7f7; }
+        .container { width: 80%; margin: auto; padding: 20px; }
+
+        .match-card {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .teams { display: flex; align-items: center; justify-content: space-between; }
+        .team { display: flex; align-items: center; gap: 10px; }
+
+        img { height: 35px; }
+
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            width: 120px;
+        }
+
+        .status {
+            background: #ff4d4d;
+            padding: 5px 10px;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+    </style>
+
+    <!-- Auto refresh every 30 seconds -->
+    <meta http-equiv="refresh" content="3600">
+</head>
+
+<body>
+<div class="container">
+    <h1>Live Football Results</h1>
+    <p>Automatically updates every 30 seconds.</p>
+
+    <% if (matches.length === 0) { %>
+        <p>No live matches right now ⚽</p>
+    <% } %>
+
+    <% matches.forEach(m => { %>
+        <div class="match-card">
+
+            <h3><%= m.league.name %> — <%= m.league.country %></h3>
+
+            <div class="teams">
+
+                <div class="team">
+                    <img src="<%= m.teams.home.logo %>" alt="home logo">
+                    <span><%= m.teams.home.name %></span>
+                </div>
+
+                <div class="score">
+                    <%= m.goals.home %> - <%= m.goals.away %>
+                </div>
+
+                <div class="team">
+                    <span><%= m.teams.away.name %></span>
+                    <img src="<%= m.teams.away.logo %>" alt="away logo">
+                </div>
+
+            </div>
+
+            <p class="status">
+                <%= m.fixture.status.short %> — <%= m.fixture.status.elapsed || 0 %>' 
+            </p>
+
+        </div>
+    <% }) %>
+
+</div>
+</body>
+</html>

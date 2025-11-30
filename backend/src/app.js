@@ -1,9 +1,7 @@
-
 import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-// const logger = require("morgan");
 import logger from "morgan";
 import session from "express-session";
 
@@ -20,38 +18,40 @@ import apiUsers from "./routes/apiUsers.js";
 
 const app = express();
 
-
 // Necesario para rutas absolutas
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// View engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // Middlewares
+app.use(logger("dev"));
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
     secret:"secreto-super-seguro",
     resave:false,
-    saveUninitialized:false, //No guarda usuarios que no han iniciado sesion
-    cookie:{ secure:false } // Cambiar a true si se usa https
-}))
+    saveUninitialized:false,
+    cookie:{ secure:false }
+}));
 
-// Servir tu frontend desde /public
+// Servir frontend desde /public
 app.use(express.static(path.join(__dirname, "../public")));
 
+// Variables globales para vistas
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
 });
 
-//Activar las rutas
+// Router activation
 app.use("/", indexRouter);
 app.use("/account", accountRouter);
 app.use("/blog", blogRouter);
-app.use("/gamble", gambleRouter);
+app.use("/gamble", gambleRouter);     // <-- /gamble/live will work here
 app.use("/help", helpRouter);
 app.use("/logMenu", logMenuRouter);
 app.use("/results", resultsRouter);
@@ -59,5 +59,4 @@ app.use("/settings", settingsRouter);
 app.use("/subscription", subscriptionRouter);
 app.use("/api/users", apiUsers);
 
-// Exportar app correctamente (esto soluciona el error)
 export default app;
