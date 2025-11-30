@@ -92,3 +92,60 @@ export const loginUser = async (req, res) => {
         return res.status(500).send("Error en el servidor");
     }
 };
+
+export const updateUser = async (req, res) => {
+    try {
+        // El usuario logueado
+        const sessionUser = req.session.user;
+        if (!sessionUser) {
+            return res.status(401).send("No autorizado");
+        }
+
+        const { username, nombre, apellidos, email, fechaNacimiento } = req.body;
+
+        // Validación sencilla
+        if (!username || !nombre || !apellidos || !email || !fechaNacimiento) {
+            return res.status(400).send("Todos los campos son obligatorios");
+        }
+
+        // Evitar duplicación de username/email con otros usuarios
+        const existUser = await User.findOne({
+            _id: { $ne: sessionUser.id }, // excluye a sí mismo
+            $or: [{ username }, { email }]
+        });
+
+        if (existUser) {
+            return res.status(400).send("Nombre de usuario o email ya están en uso");
+        }
+
+        // Actualizar en BBDD
+        const updatedUser = await User.findByIdAndUpdate(
+            sessionUser.id,
+            {
+                username,
+                nombre,
+                apellidos,
+                email,
+                fechaNacimiento: new Date(fechaNacimiento)
+            },
+            { new: true }
+        );
+
+        // Actualizar también la sesión
+        req.session.user = {
+            id: updatedUser._id,
+            username: updatedUser.username,
+            nombre: updatedUser.nombre,
+            apellidos: updatedUser.apellidos,
+            email: updatedUser.email,
+            fechaNacimiento: updatedUser.fechaNacimiento,
+            balance: updatedUser.balance
+        };
+
+        return res.redirect("/account");
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send("Error al actualizar usuario");
+    }
+};
