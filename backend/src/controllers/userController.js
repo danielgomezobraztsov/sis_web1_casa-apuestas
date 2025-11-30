@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 export const registerUser = async (req, res) => {
     try {
         const {
-            username,
+            userName,
             email,
             password,
             confirm_password,
@@ -14,7 +14,7 @@ export const registerUser = async (req, res) => {
         } = req.body;
 
         // Validación
-        if (!username || !email || !password || !nombre || !apellidos || !fechaNacimiento) {
+        if (!userName || !email || !password || !nombre || !apellidos || !fechaNacimiento) {
             return res.status(400).send("Faltan campos obligatorios");
         }
 
@@ -24,7 +24,7 @@ export const registerUser = async (req, res) => {
 
         // Comprobar duplicados
         const existUser = await User.findOne({
-            $or: [ { userName: username }, { email } ]
+            $or: [ { userName }, { email } ]
         });
 
         if (existUser) {
@@ -36,7 +36,7 @@ export const registerUser = async (req, res) => {
 
         // Crear usuario
         const newUser = new User({
-            userName: username,               // tu modelo usa userName
+            userName,               // tu modelo usa userName
             email,
             password: hashedPassword,
             nombre,
@@ -57,15 +57,15 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
-        const { username, password} = req.body;
+        const { userName, password} = req.body;
 
         //Verificamos que hay datos
-        if(!username || !password){
+        if(!userName || !password){
             return res.status(400).send("Faltan campos obligatorios");
         }
 
         //Buscamos el usuario
-        const user = await User.findOne({ userName: username });
+        const user = await User.findOne({ userName: userName });
         if(!user){
             return res.status(400).send("Usuario o contraseña incorrectos");
         }
@@ -77,7 +77,7 @@ export const loginUser = async (req, res) => {
 
         req.session.user = {
             id: user._id,
-            username: user.userName,
+            userName: user.userName,
             email: user.email,
             nombre: user.nombre,
             apellidos: user.apellidos,
@@ -100,13 +100,13 @@ export const updateUser = async (req, res) => {
             return res.status(401).send("No autorizado");
         }
 
-        const { username, nombre, apellidos, email, fechaNacimiento } = req.body;
+        const { userName, nombre, apellidos, email, fechaNacimiento } = req.body;
 
         const updatedFields = {};
 
         // Solo actualizar si NO está vacío o undefined
-        if (username !== undefined && username.trim() !== "") {
-            updatedFields.username = username.trim();
+        if (userName !== undefined && userName.trim() !== "") {
+            updatedFields.userName = userName.trim();
         }
 
         if (nombre !== undefined && nombre.trim() !== "") {
@@ -131,11 +131,11 @@ export const updateUser = async (req, res) => {
         }
 
         // Comprobar duplicados SOLO si se cambia username o email
-        if (updatedFields.username || updatedFields.email) {
+        if (updatedFields.userName || updatedFields.email) {
             const existUser = await User.findOne({
                 _id: { $ne: sessionUser.id },
                 $or: [
-                    updatedFields.username ? { username: updatedFields.username } : null,
+                    updatedFields.userName ? { userName: updatedFields.userName } : null,
                     updatedFields.email ? { email: updatedFields.email } : null
                 ].filter(Boolean)
             });
@@ -154,7 +154,7 @@ export const updateUser = async (req, res) => {
         // Refrescar la sesión
         req.session.user = {
             id: updatedUser._id,
-            username: updatedUser.username,
+            userName: updatedUser.userName,
             nombre: updatedUser.nombre,
             apellidos: updatedUser.apellidos,
             email: updatedUser.email,
