@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 export const registerUser = async (req, res) => {
     try {
-        const { 
+        const {
             username,
             email,
             password,
@@ -23,8 +23,8 @@ export const registerUser = async (req, res) => {
         }
 
         // Comprobar duplicados
-        const existUser = await User.findOne({ 
-            $or: [ { userName: username }, { email } ] 
+        const existUser = await User.findOne({
+            $or: [ { userName: username }, { email } ]
         });
 
         if (existUser) {
@@ -50,6 +50,44 @@ export const registerUser = async (req, res) => {
         return res.redirect("/");  // Redirige correctamente
 
     } catch (err) {
+        console.error("ERROR REAL:", err);
+        return res.status(500).send("Error en el servidor");
+    }
+};
+
+export const loginUser = async (req, res) => {
+    try {
+        const { username, password} = req.body;
+
+        //Verificamos que hay datos
+        if(!username || !password){
+            return res.status(400).send("Faltan campos obligatorios");
+        }
+
+        //Buscamos el usuario
+        const user = await User.findOne({ userName: username });
+        if(!user){
+            return res.status(400).send("Usuario o contraseña incorrectos");
+        }
+        //Comprobamos la contraseña
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch){
+            return res.status(400).send("Usuario o contraseña incorrectos");
+        }
+
+        req.session.user = {
+            id: user._id,
+            username: user.userName,
+            email: user.email,
+            nombre: user.nombre,
+            apellidos: user.apellidos,
+            balance: user.balance,
+            fechaNacimiento: user.fechaNacimiento
+        }
+        return res.redirect("/");
+
+
+    }catch(err){
         console.error("ERROR REAL:", err);
         return res.status(500).send("Error en el servidor");
     }
