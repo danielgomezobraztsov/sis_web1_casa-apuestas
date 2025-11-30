@@ -95,7 +95,6 @@ export const loginUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-        // El usuario logueado
         const sessionUser = req.session.user;
         if (!sessionUser) {
             return res.status(401).send("No autorizado");
@@ -103,35 +102,56 @@ export const updateUser = async (req, res) => {
 
         const { username, nombre, apellidos, email, fechaNacimiento } = req.body;
 
-        // Validación sencilla
-        if (!username || !nombre || !apellidos || !email || !fechaNacimiento) {
-            return res.status(400).send("Todos los campos son obligatorios");
+        const updatedFields = {};
+
+        // Solo actualizar si NO está vacío o undefined
+        if (username !== undefined && username.trim() !== "") {
+            updatedFields.username = username.trim();
         }
 
-        // Evitar duplicación de username/email con otros usuarios
-        const existUser = await User.findOne({
-            _id: { $ne: sessionUser.id }, // excluye a sí mismo
-            $or: [{ username }, { email }]
-        });
-
-        if (existUser) {
-            return res.status(400).send("Nombre de usuario o email ya están en uso");
+        if (nombre !== undefined && nombre.trim() !== "") {
+            updatedFields.nombre = nombre.trim();
         }
 
-        // Actualizar en BBDD
+        if (apellidos !== undefined && apellidos.trim() !== "") {
+            updatedFields.apellidos = apellidos.trim();
+        }
+
+        if (email !== undefined && email.trim() !== "") {
+            updatedFields.email = email.trim();
+        }
+
+        if (fechaNacimiento !== undefined && fechaNacimiento.trim() !== "") {
+            updatedFields.fechaNacimiento = new Date(fechaNacimiento);
+        }
+
+        // No permitir dejar el perfil completamente vacío
+        if (Object.keys(updatedFields).length === 0) {
+            return res.status(400).send("No se envió ningún dato válido para actualizar");
+        }
+
+        // Comprobar duplicados SOLO si se cambia username o email
+        if (updatedFields.username || updatedFields.email) {
+            const existUser = await User.findOne({
+                _id: { $ne: sessionUser.id },
+                $or: [
+                    updatedFields.username ? { username: updatedFields.username } : null,
+                    updatedFields.email ? { email: updatedFields.email } : null
+                ].filter(Boolean)
+            });
+
+            if (existUser) {
+                return res.status(400).send("El nombre de usuario o email ya están en uso");
+            }
+        }
+
         const updatedUser = await User.findByIdAndUpdate(
             sessionUser.id,
-            {
-                username,
-                nombre,
-                apellidos,
-                email,
-                fechaNacimiento: new Date(fechaNacimiento)
-            },
+            updatedFields,
             { new: true }
         );
-
-        // Actualizar también la sesión
+        
+        // Refrescar la sesión
         req.session.user = {
             id: updatedUser._id,
             username: updatedUser.username,
