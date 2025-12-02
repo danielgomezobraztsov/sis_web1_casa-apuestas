@@ -7,3 +7,7 @@ MONGO_URI ="mongodb+srv://gamblinghub_db_user:<db_password>@cluster0.fjdd5hi.mon
 PORT=4000
 
 La contraseña esta fijada en WHATSAPP
+
+Start python:
+
+python -m http.server 8000

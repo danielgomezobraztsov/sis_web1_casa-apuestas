@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Probador de algoritmo — Ranking CSV</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;max-width:980px;margin:24px auto;padding:16px}
+  h1{font-size:20px;margin-bottom:6px}
+  label{display:block;margin-top:12px;font-weight:600}
+  select,input[type=file]{width:100%;padding:8px;margin-top:6px}
+  button{padding:10px 14px;margin-top:12px}
+  pre{background:#f7f7f7;padding:12px;border-radius:6px;overflow:auto}
+  .row{display:flex;gap:12px}
+  .col{flex:1}
+  .note{color:#555;font-size:13px;margin-top:8px}
+  .result{margin-top:12px;padding:12px;background:#fcfcff;border:1px solid #eee;border-radius:6px}
+</style>
+</head>
+<body>
+  <h1>Probador de algoritmo — Ranking CSV</h1>
+  <p class="note">
+    El HTML intenta cargar <code>/doc/csv/ranking.csv</code>. Si no está disponible (por ejemplo al abrir con <code>file://</code>),
+    sube el CSV manualmente usando el botón de archivo. El parser detecta columnas comunes (Club / Team y Points).
+  </p>
+
+  <div>
+    <label>Subir CSV (opcional si <code>/doc/csv/ranking.csv</code> es accesible):</label>
+    <input id="fileInput" type="file" accept=".csv,text/csv" />
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label>Equipo A</label>
+      <select id="teamA"><option value="">-- cargar CSV --</option></select>
+    </div>
+    <div class="col">
+      <label>Equipo B</label>
+      <select id="teamB"><option value="">-- cargar CSV --</option></select>
+    </div>
+  </div>
+
+  <div>
+    <button id="computeBtn" disabled>Calcular R1 / R2 / Empate</button>
+    <button id="copyBtn" disabled>Copiar resultado</button>
+  </div>
+
+  <div id="output" class="result" style="display:none;">
+    <strong>Resultado</strong>
+    <pre id="outText"></pre>
+  </div>
+
+  <details class="note" style="margin-top:14px">
+    <summary>Instrucciones rápidas</summary>
+    <ol>
+      <li>Si tu servidor (o entorno) sirve el CSV en <code>/doc/csv/ranking.csv</code>, simplemente abre este HTML desde ese mismo servidor.</li>
+      <li>Si no, ábrelo localmente y sube el CSV con el campo "Subir CSV".</li>
+      <li>Selecciona los dos equipos y pulsa "Calcular".</li>
+    </ol>
+  </details>
+
+<script>
+/* ---------- Parser CSV simple (maneja comillas y CRLF) ---------- */
+/* ---------- Parser CSV simple (maneja comillas y CRLF) ---------- */
+function parseCSV(text) {
+  const rows = [];
+  let cur = '';
+  let row = [];
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const next = text[i+1];
+
+    if (ch === '"') {
+      if (inQuotes && next === '"') { cur += '"'; i++; continue; }
+      inQuotes = !inQuotes;
+      continue;
+    }
+    if (ch === ',' && !inQuotes) {
+      row.push(cur);
+      cur = '';
+      continue;
+    }
+    
+    // --- FIX IS HERE ---
+    // Check for actual newline/carriage return characters, not escaped strings
+    if ((ch === '\n' || ch === '\r') && !inQuotes) {
+      if (cur !== '' || row.length > 0) {
+        row.push(cur);
+        rows.push(row);
+        row = [];
+        cur = '';
+      }
+      // Handle CRLF (Windows newlines)
+      if (ch === '\r' && next === '\n') i++;
+      continue;
+    }
+    // --------------------
+
+    cur += ch;
+  }
+  if (cur !== '' || row.length > 0) { row.push(cur); rows.push(row); }
+  return rows.map(r => r.map(c => (c||'').trim()));
+}
+
+/* ---------- Helpers ---------- */
+function normalize(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim(); }
+
+function detectColumns(headers) {
+  const lower = headers.map(h => (h||'').toLowerCase());
+  const clubIdx = lower.findIndex(h => /club|team|team name|club \/ country|equipo/.test(h));
+  const pointsIdx = lower.findIndex(h => /point|pts|puntos|score/.test(h));
+  // fallbacks
+  return {
+    club: clubIdx !== -1 ? clubIdx : (headers.length >= 2 ? 1 : 0),
+    points: pointsIdx !== -1 ? pointsIdx : (headers.length-1)
+  };
+}
+
+function extractFirstNumber(cell) {
+  if (!cell) return 0;
+  const m = (''+cell).match(/-?\d+(\.\d+)?/);
+  return m ? Number(m[0]) : 0;
+}
+
+/* ---------- UI elements ---------- */
+const teamASelect = document.getElementById('teamA');
+const teamBSelect = document.getElementById('teamB');
+const computeBtn = document.getElementById('computeBtn');
+const copyBtn = document.getElementById('copyBtn');
+const outText = document.getElementById('outText');
+const output = document.getElementById('output');
+const fileInput = document.getElementById('fileInput');
+
+let parsedRows = []; // array of rows (arrays)
+let headerRow = [];
+let clubCol = 1, pointsCol = 2;
+let maxPoints = 0;
+
+/* ---------- Cargar CSV desde ruta /doc/csv/ranking.csv (intento) ---------- */
+async function tryLoadDefaultCsv() {
+  try {
+    const res = await fetch('/doc/csv/ranking.csv', {cache: "no-store"});
+    if (!res.ok) throw new Error('no disponible');
+    const txt = await res.text();
+    handleCsvText(txt);
+    console.log('CSV cargado desde /doc/csv/ranking.csv');
+  } catch (err) {
+    console.log('No se pudo cargar /doc/csv/ranking.csv — usa el input para subir el CSV.');
+    // no hacer nada: el usuario puede subir el archivo manualmente
+  }
+}
+
+/* ---------- Manejo del CSV ya leido ---------- */
+function handleCsvText(txt) {
+  const rows = parseCSV(txt);
+  if (!rows || rows.length < 2) { alert('CSV inválido o vacío'); return; }
+  headerRow = rows[0].map(h=>h||'');
+  parsedRows = rows.slice(1).filter(r => r.length > 0);
+
+  const cols = detectColumns(headerRow);
+  clubCol = cols.club;
+  pointsCol = cols.points;
+
+  // construir lista de equipos y calcular maxPoints
+  maxPoints = 0;
+  const teams = [];
+  parsedRows.forEach(r => {
+    const club = r[clubCol] || r[1] || r[0] || '';
+    const p = extractFirstNumber(r[pointsCol]);
+    if (!isNaN(p) && p > maxPoints) maxPoints = p;
+    teams.push({name: club, points: p});
+  });
+
+  // rellenar selects
+  fillSelects(teams);
+
+  computeBtn.disabled = false;
+}
+
+/* ---------- llenar selects ---------- */
+function fillSelects(teams) {
+  // ordenar por rank si hay rank (col 0)
+  teamASelect.innerHTML = '';
+  teamBSelect.innerHTML = '';
+  const addDefault = opt => {
+    const el = document.createElement('option');
+    el.value='';
+    el.textContent='-- seleccionar --';
+    opt.appendChild(el);
+  };
+  addDefault(teamASelect); addDefault(teamBSelect);
+
+  teams.forEach(t => {
+    const o1 = document.createElement('option');
+    o1.value = t.name;
+    o1.textContent = t.name;
+    teamASelect.appendChild(o1);
+
+    const o2 = document.createElement('option');
+    o2.value = t.name;
+    o2.textContent = t.name;
+    teamBSelect.appendChild(o2);
+  });
+}
+
+/* ---------- Cálculo del algoritmo ---------- */
+function computeForSelected() {
+  const nameA = teamASelect.value;
+  const nameB = teamBSelect.value;
+  if (!nameA || !nameB) { alert('Selecciona ambos equipos'); return; }
+
+  // encontrar filas por nombre (normalizado)
+  const normA = normalize(nameA);
+  const normB = normalize(nameB);
+
+  function findRowByName(normName) {
+    for (const r of parsedRows) {
+      const club = r[clubCol] || r[1] || r[0] || '';
+      if (normalize(club) === normName) return r;
+    }
+    // fallback: includes
+    for (const r of parsedRows) {
+      const club = r[clubCol] || r[1] || r[0] || '';
+      if (normalize(club).includes(normName) || normName.includes(normalize(club))) return r;
+    }
+    return null;
+  }
+
+  const rowA = findRowByName(normA);
+  const rowB = findRowByName(normB);
+  if (!rowA || !rowB) { alert('No se encontró uno de los equipos (nombre no exacto).'); return; }
+
+  const pointsA = extractFirstNumber(rowA[pointsCol]);
+  const pointsB = extractFirstNumber(rowB[pointsCol]);
+
+  if (maxPoints <= 0) { alert('No se pudo calcular maxPoints desde el CSV'); return; }
+
+  const convA = (pointsA * 100) / maxPoints;
+  const convB = (pointsB * 100) / maxPoints;
+
+  const safeDiv = (num, den) => (den === 0 ? (num === 0 ? 1 : Infinity) : num/den);
+
+  const R1 = safeDiv(convA, convB) + 1;
+  const R2 = safeDiv(convB, convA) + 1;
+  const tieValue = Math.abs(convA - convB) / 2 + 1;
+
+  // mostrar resultado
+  const out = {
+    teamA: { name: rowA[clubCol]||rowA[1]||rowA[0], points: pointsA, converted: Number(convA.toFixed(6)) },
+    teamB: { name: rowB[clubCol]||rowB[1]||rowB[0], points: pointsB, converted: Number(convB.toFixed(6)) },
+    maxPoints,
+    R1: Number(R1.toFixed(6)),
+    R2: Number(R2.toFixed(6)),
+    tieValue: Number(tieValue.toFixed(6))
+  };
+
+  outText.textContent = JSON.stringify(out, null, 2);
+  output.style.display = 'block';
+  copyBtn.disabled = false;
+}
+
+/* ---------- Handlers ---------- */
+computeBtn.addEventListener('click', computeForSelected);
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard?.writeText(outText.textContent).then(()=>alert('Copiado al portapapeles'));
+});
+
+fileInput.addEventListener('change', (ev) => {
+  const f = ev.target.files && ev.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = e => handleCsvText(String(e.target.result || ''));
+  reader.readAsText(f, 'utf-8');
+});
+
+/* ---------- Intento de carga por defecto ---------- */
+tryLoadDefaultCsv();
+
+</script>
+</body>
+</html>
