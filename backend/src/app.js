@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import logger from "morgan";
 import session from "express-session";
+// import dotenv from "dotenv";
 
 import indexRouter from "./routes/index.js";
 import accountRouter from "./routes/account.js";
@@ -21,6 +22,10 @@ const app = express();
 // Necesario para rutas absolutas
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// dotenv.config({
+//     path: path.join(__dirname, "backend", ".env")
+// });
 
 // View engine
 app.set("views", path.join(__dirname, "views"));
