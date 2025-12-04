@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Resultados Recientes</title>
 
     <link rel="stylesheet" href="/css/results.css">
 
     <style>
-        h2 {
+        h1 {
             color: #b066ff;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        h2 {
+            color: #c084fc;
             margin-top: 40px;
             text-align: center;
         }
 
         table {
-            width: 90%;
+            width: 85%;
             margin: 20px auto;
             border-collapse: collapse;
-            background: #1a001f;
+            background: #1a0020;
             color: #fff;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
         }
 
@@ -31,48 +38,53 @@
         td {
             padding: 10px;
             text-align: center;
-            border-bottom: 1px solid #391452;
+            border-bottom: 1px solid #32103f;
         }
 
         tr:hover {
-            background: #2a0030;
+            background: #2d003a;
         }
 
         .team {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .team img {
             height: 22px;
+        }
+
+        p.notice {
+            text-align: center;
+            color: #ccc;
         }
     </style>
 </head>
 
 <body>
 
-<h1 class="text-center mt-5 fw-bold" style="color:#b066ff;">Resultados Recientes</h1>
+<h1>Resultados Recientes</h1>
+<p class="notice">Partidos finalizados del día actual</p>
 
-<p class="text-center" style="color:#ddd;">Partidos del día anterior (5 ligas principales)</p>
-
-<% 
-const leagueNames = {
-    39: "Premier League",
-    140: "La Liga",
-    135: "Serie A",
-    2: "Champions League",
-    3: "Europa League"
-};
+<%
+    const leagueIds = Object.keys(results);
+    if (leagueIds.length === 0) {
 %>
 
-<% for (const leagueId in results) { %>
+    <p class="notice">⚠️ No hay partidos finalizados todavía hoy.</p>
 
-    <h2><%= leagueNames[leagueId] %></h2>
+<% } %>
 
-    <% if (results[leagueId].length === 0) { %>
-        <p class="text-center" style="color:#bbb;">No hubo partidos ayer en esta liga.</p>
+<% leagueIds.forEach(leagueId => { %>
+
+    <h2><%= results[leagueId].leagueName %></h2>
+
+    <% if (results[leagueId].matches.length === 0) { %>
+
+        <p class="notice">No hubo partidos finalizados en esta liga.</p>
+
     <% } else { %>
 
         <table>
@@ -85,33 +97,33 @@ const leagueNames = {
             </thead>
 
             <tbody>
-                <% results[leagueId].forEach(match => { %>
+                <% results[leagueId].matches.forEach(match => { %>
+
                     <tr>
                         <td>
                             <div class="team">
-                                <img src="<%= match.teams.home.logo %>">
+                                <img src="<%= match.teams.home.logo %>" alt="">
                                 <span><%= match.teams.home.name %></span>
                             </div>
                         </td>
 
-                        <td>
-                            <%= match.goals.home %> - <%= match.goals.away %>
-                        </td>
+                        <td><%= match.goals.home %> - <%= match.goals.away %></td>
 
                         <td>
                             <div class="team">
                                 <span><%= match.teams.away.name %></span>
-                                <img src="<%= match.teams.away.logo %>">
+                                <img src="<%= match.teams.away.logo %>" alt="">
                             </div>
                         </td>
                     </tr>
+
                 <% }) %>
             </tbody>
         </table>
 
     <% } %>
 
-<% } %>
+<% }) %>
 
 </body>
 </html>
