@@ -44,10 +44,14 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    creditcard: {
-        type: String,
-        default: ""
-    }
+    paymentMethods: [
+        {
+            cardNumber: String,
+            cardholderName: String,
+            cardType: String,
+            createdAt: { type: Date, default: Date.now }
+        }
+    ]
 }, { timestamps: true });
 
 export default mongoose.model("User", userSchema);
