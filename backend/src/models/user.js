@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema({
     premium: {
         type: Boolean,
         default: false
+    },
+    creditcard: {
+        type: String,
+        default: ""
     }
 }, { timestamps: true });
 
