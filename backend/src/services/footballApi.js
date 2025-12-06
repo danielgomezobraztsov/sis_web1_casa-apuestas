@@ -54,3 +54,20 @@ export const getFixtureById = async (id) => {
   }
 };
 
+export const getStandings = async (leagueId, season) => {
+  try {
+    const res = await axios.get(`${API_URL}/standings`, {
+      params: { league: leagueId, season },
+      headers: {
+        "x-rapidapi-key": process.env.FOOTBALL_API_KEY,
+        "x-rapidapi-host": "v3.football.api-sports.io"
+      }
+    });
+
+    return res.data.response[0].league.standings[0]; // array de equipos
+  } catch (err) {
+    console.error("Error fetching standings:", err.response?.data || err);
+    return [];
+  }
+};
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My Bets</title>
+  <link rel="stylesheet" href="/css/gamble.css">
+  <style>
+    .bet-list {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #141421;
+      border: 1px solid #2a2a3a;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    .bet-item {
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .bet-item:last-child {
+      border-bottom: none;
+    }
+
+    .bet-title {
+      font-size: 1.2rem;
+      color: #00ffcc;
+    }
+
+    .bet-details {
+      color: #ccc;
+      font-size: .95rem;
+      margin-top: .5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="bet-list">
+      <h1 style="text-align:center; margin-bottom:1rem; color:#00ffcc;">
+        My Bets
+      </h1>
+
+      <% if (bets.length === 0) { %>
+        <p style="text-align:center; color:#aaa;">You have no bets yet.</p>
+      <% } %>
+
+      <% bets.forEach(bet => { %>
+        <div class="bet-item">
+          <div class="bet-title">
+            <%= bet.selection.toUpperCase() %> — Stake: €<%= bet.amount %>
+          </div>
+
+          <div class="bet-details">
+            <p>Odd: <%= bet.odd %></p>
+            <p>Potential Win: €<%= bet.potentialWin.toFixed(2) %></p>
+            <p>Status: <%= bet.status %></p>
+            <p>Date: <%= new Date(bet.createdAt).toLocaleString() %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+</body>
+</html>

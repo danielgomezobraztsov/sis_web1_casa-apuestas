@@ -6,8 +6,8 @@
 
   <style>
     .bet-wrapper {
-      max-width: 700px;
-      margin: 0 auto;
+      max-width: 750px;
+      margin: 2rem auto;
       padding: 2rem;
       background: #141421;
       border: 1px solid #2a2a3a;
@@ -30,7 +30,7 @@
     }
 
     .team img {
-      height: 40px;
+      height: 45px;
     }
 
     .details {
@@ -39,18 +39,25 @@
       color: #aaa;
     }
 
+    .bet-odds-card {
+      background: #1b1b2b;
+      padding: 1.2rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+
     .bet-btn {
       width: 100%;
       display: block;
-      padding: 12px;
-      margin-top: 10px;
+      padding: 14px;
+      margin-top: 12px;
       border: none;
-      border-radius: 6px;
-      font-size: 1rem;
+      border-radius: 8px;
+      font-size: 1.15rem;
       cursor: pointer;
       background: #9333ea;
       color: white;
-      transition: 0.2s;
+      transition: .2s;
     }
 
     .bet-btn:hover {
@@ -58,9 +65,23 @@
       transform: scale(1.03);
     }
 
+    .input-box {
+      margin-top: 1.5rem;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background: #0d0d0d;
+      color: #fff;
+      font-size: 1rem;
+    }
+
     .section-title {
       margin-top: 2rem;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       font-size: 1.3rem;
       color: #00ffcc;
     }
@@ -68,21 +89,22 @@
 </head>
 
 <body>
-
   <main>
     <div class="bet-wrapper">
 
+      <!-- TITLE -->
       <h1 style="color:#00ffcc; margin-bottom:1rem; text-align:center;">
         <%= homeTeam %> vs <%= awayTeam %>
       </h1>
 
+      <!-- TEAMS -->
       <div class="teams">
         <div class="team">
           <img src="<%= homeLogo %>" alt="">
           <span><%= homeTeam %></span>
         </div>
 
-        <strong style="font-size:1.5rem;">VS</strong>
+        <strong style="font-size:1.6rem;">VS</strong>
 
         <div class="team">
           <span><%= awayTeam %></span>
@@ -90,31 +112,54 @@
         </div>
       </div>
 
+      <!-- DETAILS -->
       <div class="details">
         <p><strong>League:</strong> <%= league %></p>
         <p><strong>Date:</strong> <%= new Date(date).toLocaleString() %></p>
       </div>
 
+      <h2 class="section-title">Betting Odds</h2>
+
+      <!-- ODDS SECTION -->
+      <div class="bet-odds-card">
+        <p><strong><%= homeTeam %>:</strong> <%= odds.home %></p>
+        <p><strong>Draw:</strong> <%= odds.draw %></p>
+        <p><strong><%= awayTeam %>:</strong> <%= odds.away %></p>
+      </div>
+
       <h2 class="section-title">Select a Bet</h2>
 
       <form action="/gamble/bet" method="POST">
+
         <input type="hidden" name="fixture" value="<%= fixtureId %>">
 
+        <!-- HIDDEN ODDS -->
+        <input type="hidden" name="odd_home" value="<%= odds.home %>">
+        <input type="hidden" name="odd_draw" value="<%= odds.draw %>">
+        <input type="hidden" name="odd_away" value="<%= odds.away %>">
+
+        <!-- AMOUNT -->
+        <div class="input-box">
+          <label>Amount to bet (€):</label>
+          <input type="number" name="amount" min="1" required placeholder="Enter amount (€)">
+        </div>
+
+        <!-- BUTTONS -->
         <button name="selection" value="home" class="bet-btn">
-          Win: <%= homeTeam %>
+          Win: <%= homeTeam %> ( <%= odds.home %> )
         </button>
 
         <button name="selection" value="draw" class="bet-btn">
-          Draw
+          Draw ( <%= odds.draw %> )
         </button>
 
         <button name="selection" value="away" class="bet-btn">
-          Win: <%= awayTeam %>
+          Win: <%= awayTeam %> ( <%= odds.away %> )
         </button>
+
       </form>
 
     </div>
   </main>
-
 </body>
 </html>
