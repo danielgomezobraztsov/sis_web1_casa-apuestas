@@ -36,3 +36,21 @@ export const getLiveMatches = async () => {
     return [];
   }
 };
+
+export const getFixtureById = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/fixtures`, {
+      params: { id },
+      headers: {
+        "x-rapidapi-key": process.env.FOOTBALL_API_KEY,
+        "x-rapidapi-host": "v3.football.api-sports.io"
+      }
+    });
+
+    return res.data.response[0];
+  } catch (err) {
+    console.error("Error fetching fixture:", err.response?.data || err);
+    return null;
+  }
+};
+

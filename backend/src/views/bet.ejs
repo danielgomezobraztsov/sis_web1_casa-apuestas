@@ -1,40 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Place Bet</title>
-  <link rel="stylesheet" href="../css/gamble.css">
+  <link rel="stylesheet" href="/css/gamble.css">
+
+  <style>
+    .bet-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #141421;
+      border: 1px solid #2a2a3a;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    .teams {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .team {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.2rem;
+    }
+
+    .team img {
+      height: 40px;
+    }
+
+    .details {
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      color: #aaa;
+    }
+
+    .bet-btn {
+      width: 100%;
+      display: block;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #9333ea;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .bet-btn:hover {
+      background: #a855f7;
+      transform: scale(1.03);
+    }
+
+    .section-title {
+      margin-top: 2rem;
+      margin-bottom: .5rem;
+      font-size: 1.3rem;
+      color: #00ffcc;
+    }
+  </style>
 </head>
 
 <body>
-  <main style="padding: 2rem">
 
-    <h1 style="color:#00ffcc; margin-bottom: 1rem;">
-      Bet on: <%= match.teams.home.name %> vs <%= match.teams.away.name %>
-    </h1>
+  <main>
+    <div class="bet-wrapper">
 
-    <div class="bet-card">
+      <h1 style="color:#00ffcc; margin-bottom:1rem; text-align:center;">
+        <%= homeTeam %> vs <%= awayTeam %>
+      </h1>
 
-      <div class="team-row">
-        <span><%= match.teams.home.name %></span>
-        <span class="score"><%= match.goals.home %></span>
+      <div class="teams">
+        <div class="team">
+          <img src="<%= homeLogo %>" alt="">
+          <span><%= homeTeam %></span>
+        </div>
+
+        <strong style="font-size:1.5rem;">VS</strong>
+
+        <div class="team">
+          <span><%= awayTeam %></span>
+          <img src="<%= awayLogo %>" alt="">
+        </div>
       </div>
 
-      <div class="team-row">
-        <span><%= match.teams.away.name %></span>
-        <span class="score"><%= match.goals.away %></span>
+      <div class="details">
+        <p><strong>League:</strong> <%= league %></p>
+        <p><strong>Date:</strong> <%= new Date(date).toLocaleString() %></p>
       </div>
 
-      <div class="status-row">
-        <span>Time: <%= match.fixture.status.elapsed %>'</span>
-      </div>
-
-      <h3>Select a Bet:</h3>
+      <h2 class="section-title">Select a Bet</h2>
 
       <form action="/gamble/bet" method="POST">
-        <input type="hidden" name="fixture" value="<%= match.fixture.id %>">
+        <input type="hidden" name="fixture" value="<%= fixtureId %>">
 
         <button name="selection" value="home" class="bet-btn">
-          Win: <%= match.teams.home.name %>
+          Win: <%= homeTeam %>
         </button>
 
         <button name="selection" value="draw" class="bet-btn">
@@ -42,13 +109,12 @@
         </button>
 
         <button name="selection" value="away" class="bet-btn">
-          Win: <%= match.teams.away.name %>
+          Win: <%= awayTeam %>
         </button>
-
       </form>
 
     </div>
-
   </main>
+
 </body>
 </html>

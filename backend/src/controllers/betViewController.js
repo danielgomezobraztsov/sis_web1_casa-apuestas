@@ -4,7 +4,7 @@ export const showBetPage = async (req, res) => {
   const fixtureId = req.params.fixtureId;
 
   try {
-    // Llamamos a API-FOOTBALL para obtener información del partido concreto
+    // Obtener el partido concreto
     const response = await axios.get("https://v3.football.api-sports.io/fixtures", {
       params: { id: fixtureId },
       headers: {
@@ -14,13 +14,30 @@ export const showBetPage = async (req, res) => {
     });
 
     const match = response.data.response[0];
-
     if (!match) return res.status(404).send("Match not found");
 
-    res.render("bet", { match });
+    // Extraer datos útiles
+    const homeTeam = match.teams.home.name;
+    const awayTeam = match.teams.away.name;
+
+    const homeLogo = match.teams.home.logo;
+    const awayLogo = match.teams.away.logo;
+
+    const league = match.league.name;
+    const date = match.fixture.date;
+
+    res.render("bet", {
+      fixtureId,
+      homeTeam,
+      awayTeam,
+      homeLogo,
+      awayLogo,
+      league,
+      date
+    });
 
   } catch (error) {
-    console.log(error);
+    console.log("Error loading bet page:", error.response?.data || error);
     res.status(500).send("Error loading bet page");
   }
 };
