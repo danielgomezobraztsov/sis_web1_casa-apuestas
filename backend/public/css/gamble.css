@@ -201,3 +201,41 @@ main {
     aspect-ratio: 16 / 10;
   }
 }
+
+.bet-card {
+  background: #141421;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 480px;
+  margin: auto;
+  border: 1px solid #2a2a3a;
+}
+
+.team-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 1.3rem;
+}
+
+.status-row {
+  margin-top: 10px;
+  color: #ccc;
+}
+
+.bet-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #1b1b33;
+  color: #fff;
+  border-radius: 8px;
+  border: 1px solid #9333ea;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.2s;
+}
+
+.bet-btn:hover {
+  background: #9333ea;
+}

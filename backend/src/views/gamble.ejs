@@ -91,7 +91,7 @@
 
         <% matches.forEach(m => { %>
           
-          <a href="/gamble/bet?fixture=<%= m.fixture.id %>" class="game-card">
+          <a href="/gamble/bet/<%= m.fixture.id %>" class="game-card">
 
             <div class="match-header">
               <span class="team-name"><%= m.teams.home.name %></span>

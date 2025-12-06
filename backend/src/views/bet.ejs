@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Place Bet</title>
+  <link rel="stylesheet" href="../css/gamble.css">
+</head>
+
+<body>
+  <main style="padding: 2rem">
+
+    <h1 style="color:#00ffcc; margin-bottom: 1rem;">
+      Bet on: <%= match.teams.home.name %> vs <%= match.teams.away.name %>
+    </h1>
+
+    <div class="bet-card">
+
+      <div class="team-row">
+        <span><%= match.teams.home.name %></span>
+        <span class="score"><%= match.goals.home %></span>
+      </div>
+
+      <div class="team-row">
+        <span><%= match.teams.away.name %></span>
+        <span class="score"><%= match.goals.away %></span>
+      </div>
+
+      <div class="status-row">
+        <span>Time: <%= match.fixture.status.elapsed %>'</span>
+      </div>
+
+      <h3>Select a Bet:</h3>
+
+      <form action="/gamble/bet" method="POST">
+        <input type="hidden" name="fixture" value="<%= match.fixture.id %>">
+
+        <button name="selection" value="home" class="bet-btn">
+          Win: <%= match.teams.home.name %>
+        </button>
+
+        <button name="selection" value="draw" class="bet-btn">
+          Draw
+        </button>
+
+        <button name="selection" value="away" class="bet-btn">
+          Win: <%= match.teams.away.name %>
+        </button>
+
+      </form>
+
+    </div>
+
+  </main>
+</body>
+</html>
