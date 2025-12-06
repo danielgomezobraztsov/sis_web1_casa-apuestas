@@ -43,7 +43,15 @@ const userSchema = new mongoose.Schema({
     premium: {
         type: Boolean,
         default: false
-    }
+    },
+    paymentMethods: [
+        {
+            cardNumber: String,
+            cardholderName: String,
+            cardType: String,
+            createdAt: { type: Date, default: Date.now }
+        }
+    ]
 }, { timestamps: true });
 
 export default mongoose.model("User", userSchema);
