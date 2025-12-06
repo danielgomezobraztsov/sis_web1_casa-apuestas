@@ -177,3 +177,108 @@ export const updateUser = async (req, res) => {
         return res.status(500).send("Error al actualizar usuario");
     }
 };
+
+export const addPaymentMethod = async (req, res) => {
+    try {
+        const sessionUser = req.session.user;
+        if (!sessionUser) {
+            return res.status(401).json({ error: "No autorizado" });
+        }
+
+        const { cardNumber, cardholderName, cardType } = req.body;
+
+        if (!cardNumber || !cardholderName || !cardType) {
+            return res.status(400).json({ error: "Faltan campos obligatorios" });
+        }
+
+        if (!/^\d{4}$/.test(cardNumber)) { //un checkwo para validar el num de la tarjeta
+            return res.status(400).json({ error: "Número de tarjeta inválido (últimos 4 dígitos)" });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            sessionUser.id,
+            {
+                $push: {
+                    paymentMethods: {
+                        cardNumber,
+                        cardholderName,
+                        cardType
+                    }
+                }
+            },
+            { new: true }
+        );
+
+        return res.json({ success: true, paymentMethods: user.paymentMethods });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Error al añadir método de pago" });
+    }
+};
+
+export const addFunds = async (req, res) => {
+    try {
+        const sessionUser = req.session.user;
+        if (!sessionUser) {
+            return res.status(401).json({ error: "No autorizado" });
+        }
+
+        const { amount } = req.body;
+
+        if (!amount || ![10, 50, 100, 500].includes(amount)) {
+            return res.status(400).json({ error: "Cantidad inválida" });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            sessionUser.id,
+            { $inc: { balance: amount } },
+            { new: true }
+        );
+
+        // que se actulice el balanceee $$$$ dinero dinero dineroooS
+        req.session.user.balance = updatedUser.balance;
+        req.session.save();
+
+        return res.json({ success: true, newBalance: updatedUser.balance });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Error al añadir fondos" });
+    }
+};
+
+export const getPaymentMethods = async (req, res) => {
+    try {
+        const sessionUser = req.session.user;
+        if (!sessionUser) {
+            return res.status(401).json({ error: "No autorizado" });
+        }
+
+        const user = await User.findById(sessionUser.id);
+        return res.json({ paymentMethods: user.paymentMethods || [] });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Error al obtener métodos de pago" });
+    }
+};
+
+export const deletePaymentMethod = async (req, res) => {
+    try {
+        const sessionUser = req.session.user;
+        if (!sessionUser) {
+            return res.status(401).json({ error: "No autorizado" });
+        }
+
+        const { cardNumber } = req.body;
+
+        const user = await User.findByIdAndUpdate(
+            sessionUser.id,
+            { $pull: { paymentMethods: { cardNumber } } },
+            { new: true }
+        );
+
+        return res.json({ success: true, paymentMethods: user.paymentMethods });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Error al eliminar método de pago" });
+    }
+};
