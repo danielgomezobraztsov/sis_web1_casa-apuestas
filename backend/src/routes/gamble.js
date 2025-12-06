@@ -7,9 +7,8 @@ import { showLiveMatches } from "../controllers/liveController.js";
 
 const router = Router();
 
-router.get("/", isLogged, (req, res) => {
-    res.render("gamble");
-});
+
+router.get("/", isLogged, showLiveMatches);
 
 router.get("/matches", isLogged, showMatches);
 
