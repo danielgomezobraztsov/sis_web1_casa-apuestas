@@ -46,15 +46,16 @@
                         <!-- Avatar único -->
                         <div class="d-flex align-items-start mb-3">
                             <div id="avatarBox" class="avatar me-3">
-                                <img id="avatarImg" alt="Foto de perfil" class="img-fluid rounded">
-                                <svg class="ph" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6">
-                                    <circle cx="12" cy="8" r="4"/>
-                                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
-                                </svg>
+                            <img id="avatarImg" 
+                                    src="<%= user?.avatar ? '/avatars/' + user.avatar : '/avatars/default.png' %>"
+                                    alt="Foto de perfil" 
+                                    class="img-fluid rounded" 
+                                    style="width: 100px; height: 100px; object-fit: cover;">
                             </div>
                             <div>
-                                <input id="fileInput" class="d-none" type="file" accept="image/*"/>
-                                <button class="btn btn-dark" id="btnChangePhoto">Cambiar foto de perfil</button>
+                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#avatarModal">
+                                    Cambiar foto de perfil
+                                </button>
                             </div>
                         </div>
 
@@ -140,6 +141,61 @@
             </main>
         </div>
 
+        <!-- Modal (snippet) -->
+        <div class="modal fade" id="avatarModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content app-dark-bg text-white" style="background-color: #2b3035;">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title">Elige un Avatar</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <% if (avatars && avatars.length > 0) { %>
+                        <% avatars.forEach(function(img) { %>
+                            <div class="col-4 col-md-3">
+                                <div class="avatar-option p-1 border border-secondary rounded text-center h-100" 
+                                    style="cursor: pointer; transition: transform 0.2s;"
+                                    onmouseover="this.style.transform='scale(1.05)'"
+                                    onmouseout="this.style.transform='scale(1)'"
+                                    onclick="selectAvatar('<%= img %>', this)">
+                                    <img src="/avatars/<%= img %>" class="img-fluid rounded mb-1">
+                                    <div class="small text-truncate"><%= img %></div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <p class="text-center text-muted">No se encontraron avatares en public/avatars</p>
+                    <% } %>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+<script>
+    function selectAvatar(filename, element) {
+        // 1. Limpiar la selección previa
+        document.querySelectorAll('.avatar-option').forEach(el => {
+            el.classList.remove('border-primary', 'border-4'); // Quita el borde resaltado
+        });
+
+        // 2. Marcar el elemento actual como seleccionado
+        element.classList.add('border-primary', 'border-4'); // Añade el borde de selección
+        
+        // 3. Update preview image
+        document.getElementById('avatarImg').src = '/avatars/' + filename;
+        
+        // 4. Update hidden input for the form
+        const hidden = document.getElementById('selectedAvatar');
+        if (hidden) hidden.value = filename;
+        
+        // 5. Close modal (use getOrCreateInstance to avoid null)
+        const modalEl = document.getElementById('avatarModal');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        if (modal) modal.hide();
+    }
+</script>
         <!-- Footer -->
         <footer class="app-dark-bg text-center p-3 mt-auto">
             <p class="mb-1">Para más información visita <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" class="text-primary fw-bold">GamblingHub.org</a></p>

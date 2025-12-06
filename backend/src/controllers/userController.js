@@ -82,7 +82,8 @@ export const loginUser = async (req, res) => {
             nombre: user.nombre,
             apellidos: user.apellidos,
             balance: user.balance,
-            fechaNacimiento: user.fechaNacimiento
+            fechaNacimiento: user.fechaNacimiento,
+            avatar: user.avatar
         }
         return res.redirect("/");
 
@@ -100,7 +101,7 @@ export const updateUser = async (req, res) => {
             return res.status(401).send("No autorizado");
         }
 
-        const { userName, nombre, apellidos, email, fechaNacimiento } = req.body;
+        const { userName, nombre, apellidos, email, fechaNacimiento, avatar } = req.body;
 
         const updatedFields = {};
 
@@ -123,6 +124,10 @@ export const updateUser = async (req, res) => {
 
         if (fechaNacimiento !== undefined && fechaNacimiento.trim() !== "") {
             updatedFields.fechaNacimiento = new Date(fechaNacimiento);
+        }
+
+        if (avatar !== undefined && avatar.trim() !== "") {
+            updatedFields.avatar = avatar.trim();
         }
 
         // No permitir dejar el perfil completamente vacío
@@ -159,10 +164,13 @@ export const updateUser = async (req, res) => {
             apellidos: updatedUser.apellidos,
             email: updatedUser.email,
             fechaNacimiento: updatedUser.fechaNacimiento,
-            balance: updatedUser.balance
+            balance: updatedUser.balance,
+            avatar: updatedUser.avatar
         };
 
-        return res.redirect("/account");
+        req.session.save(() => {
+            return res.redirect("/account");
+        });
 
     } catch (err) {
         console.error(err);
