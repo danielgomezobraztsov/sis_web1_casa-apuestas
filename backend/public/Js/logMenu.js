@@ -29,12 +29,12 @@ $(document).ready(function () {
         let valid = true;
         $('.error').text(''); // limpiar errores
         const userName = $('#userName').val().trim();
-        const firstName = $('#firstName').val().trim();
-        const lastName = $('#lastName').val().trim();
+        const firstName = $('#nombre').val().trim();
+        const lastName = $('#apellidos').val().trim();
         const email = $('#email').val().trim();
         const password = $('#password').val().trim();
         const confPassword = $('#passwordConfirm').val().trim();
-        const date = $('#date').val();
+        const date = $('#fechaNacimiento').val();
 
         // Validar nombre
         const valNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/;
