@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    avatar: {
+        type: String,
+        default: ""
+    },
     premium: {
         type: Boolean,
         default: false
