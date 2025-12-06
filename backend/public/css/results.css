@@ -1,24 +1,24 @@
-/* results.css */
+/*Result.css - Estilos oscuros para la página de resultados */
+
+/* Fondo */
 body {
   background-color: #0e0e0e;
-  color: #e0e0e0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-image: linear-gradient(180deg, #0f0f0f 0%, #1a001f 100%);
-  overflow-x: hidden;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
+/* Header & Footer */
 header.app-dark-bg {
   background-color: #1a1a1a;
   border-bottom: 1px solid #3d0d58;
 }
-
 footer.app-dark-bg {
   background-color: #1a1a1a;
   border-top: 1px solid #3d0d58;
   color: #a5a5a5;
 }
 
-/* Botones */
 .btn-header-outline {
   background-color: transparent;
   color: #c084fc;
@@ -32,53 +32,68 @@ footer.app-dark-bg {
   transform: scale(1.05);
 }
 
+/* Categorías */
 .btn-header-primary {
   background-color: #a855f7;
   border: none;
   color: white;
   transition: all 0.3s ease;
 }
-
 .btn-header-primary:hover {
   background-color: #7e22ce;
   transform: scale(1.05);
 }
 
-/* Main */
-.main-content {
-  animation: fadeIn 0.7s ease-in-out;
-}
-
-.text-gradient {
-  background: linear-gradient(90deg, #a855f7, #c084fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.results-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.result-card {
-  background-color: #1f0121;
-  border: 1px solid #7e22ce;
-  border-radius: 10px;
-  padding: 20px;
+/* TITULOS LIGA */
+.league-title {
+  margin-top: 40px;
   margin-bottom: 15px;
-  text-align: left;
-  transition: transform 0.3s, background-color 0.3s;
+  font-size: 26px;
+  font-weight: 700;
 }
 
-.result-card:hover {
-  background-color: #2d0140;
-  transform: translateY(-3px);
+/* TABLA MODERNA */
+.modern-table {
+  width: 85%;
+  margin: 0 auto 40px;
+  background: #1f0121;
+  border: 1px solid #7e22ce;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.result-title {
-  color: #c084fc;
+.modern-table th {
+  background: #7e22ce;
+  padding: 12px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.modern-table td {
+  padding: 14px;
+  border-bottom: 1px solid #3d0d58;
+  text-align: center;
+}
+
+/* Alineación perfecta */
+.team-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-logo {
+  height: 24px;
+}
+
+.score-cell {
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 5px;
+}
+
+.modern-table tr:hover {
+  background: #2d0140;
 }
 
 @keyframes fadeIn {

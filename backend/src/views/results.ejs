@@ -1,129 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Resultados Recientes</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>Resultados Recientes-GamblingHub</title>
+        <link rel="icon" type="image/jpeg" href="/imagenes/favicon.png">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/results.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+        <script src="/Js/results.js" defer></script>
+    </head>
 
-    <link rel="stylesheet" href="/css/results.css">
+    <body>
+        <div class="container-fluid min-vh-100 d-flex flex-column p-0">
+            <!-- Header -->
+            <header class="app-dark-bg d-flex justify-content-between align-items-center p-3">
+                <div class="fw-bold fs-4 text-gradient text-white">GamblinHub</div>
 
-    <style>
-        h1 {
-            color: #b066ff;
-            text-align: center;
-            margin-top: 40px;
-        }
+                <div class="d-flex gap-2 align-items-center">
+                    <div class="input-group header-search me-3">
+                        <input id="searchInput" type="text" class="form-control bg-dark text-white border-secondary"
+                            placeholder="Buscar resultados...">
+                        <button id="searchBtn" class="btn btn-header-primary">Buscar</button>
+                    </div>
 
-        h2 {
-            color: #c084fc;
-            margin-top: 40px;
-            text-align: center;
-        }
+                    <button class="btn btn-header-outline" id="btnBack">Volver al Inicio</button>
 
-        table {
-            width: 85%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background: #1a0020;
-            color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+                    <div class="dropdown ms-3">
+                        <button class="btn btn-header-outline dropdown-toggle" type="button" id="userMenu"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                            <li><a class="dropdown-item" href="#" onclick="window.location.href='/api/users/logout'">Log out</a></li>
+                            <li><a class="dropdown-item" href="/account">Cuenta</a></li>
+                            <li><a class="dropdown-item" href="/subscription">Subscripción</a></li>
+                        </ul>
+                    </div>
 
-        th {
-            background: #8a2be2;
-            padding: 12px;
-            text-align: center;
-        }
+                    <div class="dropdown">
+                        <button class="btn btn-header-outline dropdown-toggle" type="button" id="helpMenu"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Ayuda
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="helpMenu">
+                            <li><a class="dropdown-item" href="/help">Ayuda</a></li>
+                            <li><a class="dropdown-item" href="faq.html">Preguntas frecuentes</a></li>
+                            <li><a class="dropdown-item" href="mailto:soporte@gamblinhub.org">Contactar soporte</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
 
-        td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #32103f;
-        }
+            <!-- Main content -->
+            <main class="main-content text-center p-4">
 
-        tr:hover {
-            background: #2d003a;
-        }
+                <h2 class="mb-4 text-gradient">Resultados Recientes</h2>
 
-        .team {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
+                <!-- CATEGORÍAS -->
+                <div class="categories-container d-flex flex-wrap justify-content-center gap-3 mb-4">
+                    <button class="btn btn-header-primary category-btn" data-category="futbol">⚽ Fútbol</button>
+                    <button class="btn btn-header-primary category-btn" data-category="boxeo">🥊 Boxeo</button>
+                    <button class="btn btn-header-primary category-btn" data-category="baloncesto">🏀 Baloncesto</button>
+                    <button class="btn btn-header-primary category-btn" data-category="tenis">🎾 Tenis</button>
+                    <button class="btn btn-header-primary category-btn" data-category="esports">🎮 E-Sports</button>
+                </div>
 
-        .team img {
-            height: 22px;
-        }
+                <!-- CONTENEDOR DONDE APARECEN LOS RESULTADOS -->
+                <div id="resultsContainer" class="results-container text-white">
+                    <p class="text-secondary">Selecciona una categoría para ver los resultados.</p>
+                </div>
+                <template id="footballTemplate">
+                    <% const leagueIds=Object.keys(results); %>
 
-        p.notice {
-            text-align: center;
-            color: #ccc;
-        }
-    </style>
-</head>
+                        <% leagueIds.forEach(leagueId=> { %>
 
-<body>
+                            <div class="league-block">
 
-<h1>Resultados Recientes</h1>
-<p class="notice">Partidos finalizados del día actual</p>
+                                <h3 class="league-title text-gradient">
+                                    <%= results[leagueId].leagueName %>
+                                </h3>
 
-<%
-    const leagueIds = Object.keys(results);
-    if (leagueIds.length === 0) {
-%>
+                                <table class="modern-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Local</th>
+                                            <th>Resultado</th>
+                                            <th>Visitante</th>
+                                        </tr>
+                                    </thead>
 
-    <p class="notice">⚠️ No hay partidos finalizados todavía hoy.</p>
+                                    <tbody>
+                                        <% results[leagueId].matches.forEach(match=> { %>
+                                            <tr>
+                                                <td class="team-cell">
+                                                    <img src="<%= match.teams.home.logo %>" class="team-logo">
+                                                    <span>
+                                                        <%= match.teams.home.name %>
+                                                    </span>
+                                                </td>
 
-<% } %>
+                                                <td class="score-cell">
+                                                    <%= match.goals.home %> - <%= match.goals.away %>
+                                                </td>
 
-<% leagueIds.forEach(leagueId => { %>
+                                                <td class="team-cell">
+                                                    <span>
+                                                        <%= match.teams.away.name %>
+                                                    </span>
+                                                    <img src="<%= match.teams.away.logo %>" class="team-logo">
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
 
-    <h2><%= results[leagueId].leagueName %></h2>
-
-    <% if (results[leagueId].matches.length === 0) { %>
-
-        <p class="notice">No hubo partidos finalizados en esta liga.</p>
-
-    <% } else { %>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Local</th>
-                    <th>Resultado</th>
-                    <th>Visitante</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <% results[leagueId].matches.forEach(match => { %>
-
-                    <tr>
-                        <td>
-                            <div class="team">
-                                <img src="<%= match.teams.home.logo %>" alt="">
-                                <span><%= match.teams.home.name %></span>
+                                </table>
                             </div>
-                        </td>
 
-                        <td><%= match.goals.home %> - <%= match.goals.away %></td>
+                            <% }) %>
+                </template>
+            </main>
 
-                        <td>
-                            <div class="team">
-                                <span><%= match.teams.away.name %></span>
-                                <img src="<%= match.teams.away.logo %>" alt="">
-                            </div>
-                        </td>
-                    </tr>
+            <!-- Footer -->
+            <footer class="app-dark-bg text-center p-3 mt-auto">
+                <p class="mb-1">¿Tienes preguntas? Escríbenos a <a href="mailto:soporte@gamblinhub.org"
+                        class="text-primary fw-bold">soporte@gamblinhub.org</a></p>
+                <p class="mb-0 text-secondary">© 2025 GamblinHub</p>
+            </footer>
+        </div>
+        
+        
 
-                <% }) %>
-            </tbody>
-        </table>
+    </body>
 
-    <% } %>
-
-<% }) %>
-
-</body>
 </html>
