@@ -16,13 +16,7 @@
     <div class="user-section">
       <div class="user-avatar"></div>
     </div>
-    <!-- Innecesario 
-     <div class="user-section">
-      <div class="user-avatar"></div>
-      <button class="login-btn">Log In</button>
-      <button class="notif-btn">Notifications</button>
-    </div>
--->
+
     <nav class="side-nav">
       <ul>
         <li>
@@ -86,16 +80,9 @@
         <label><input type="checkbox"> Exclusive</label>
         <label><input type="checkbox"> Custom Bet</label>
       </div>
-
-      <!-- Innecesario
-      <div class="account-actions">
-        <button class="signup-btn">Sign Up</button>
-        <button class="login-btn">Log In</button>
-      </div>
-      -->
     </header>
 
-    <!-- 🔥 BLOQUE CAMBIADO: aquí usamos los partidos reales -->
+   
     <section class="game-grid">
 
       <% if (!matches || matches.length === 0) { %>
@@ -103,18 +90,23 @@
       <% } else { %>
 
         <% matches.forEach(m => { %>
+          
           <a href="/gamble/bet?fixture=<%= m.fixture.id %>" class="game-card">
-            <h3><%= m.teams.home.name %> vs <%= m.teams.away.name %></h3>
 
-            <div class="score">
-              <%= m.goals.home %> - <%= m.goals.away %>
+            <div class="match-header">
+              <span class="team-name"><%= m.teams.home.name %></span>
+              <span class="score"><%= m.goals.home %> - <%= m.goals.away %></span>
+              <span class="team-name"><%= m.teams.away.name %></span>
             </div>
 
-            <p>
-              <%= m.fixture.status.elapsed || 0 %>' — 
-              <%= m.fixture.status.short %>
-            </p>
+            <div class="match-footer">
+              <span class="minute">
+                <%= m.fixture.status.elapsed || 0 %>' (<%= m.fixture.status.short %>)
+              </span>
+            </div>
+
           </a>
+
         <% }) %>
 
       <% } %>
