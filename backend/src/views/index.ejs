@@ -28,6 +28,9 @@
             <button id="topSearchBtn" class="btn btn-header-primary" type="button">Buscar</button>
           </div>
           -->
+          <div class="me-3 text-white">
+            <strong>Saldo:</strong> <span id="user-balance"><%= user ? ('$' + (user.balance || 0)) : '$0' %></span>
+          </div>
           <!-- Botones principales con redirección -->
           <button class="btn btn-header-outline" id="btnResults">Ver Resultados</button>
           <button class="btn btn-header-primary" id="btnGamble">Apostar</button>
