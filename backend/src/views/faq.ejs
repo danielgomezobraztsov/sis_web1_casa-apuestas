@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<div class="d-flex gap-2">
+<button class="btn btn-header-outline" onclick="window.location.href='/'">Home</button>
+<button class="btn btn-header-outline" id="btnHome" onclick="window.location.href='/api/users/logout'; window.location.href='logMenu';">Log out</button>
+</div>
+</header>
+
+
+<div class="row flex-grow-1 g-0">
+<!-- Sidebar -->
+<aside class="col-auto app-dark-bg d-flex flex-column p-3">
+<button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/account'">Cuenta</button>
+<button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/subscription'">Subscripción</button>
+<button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/settings'">Ajustes</button>
+<button class="btn btn-header-primary mb-2 w-100">Ayuda</button>
+</aside>
+
+
+<!-- Main content -->
+<main class="col p-4">
+<section class="text-center mb-4">
+<h2 class="mb-2">Preguntas frecuentes — GamblinHub</h2>
+<p class="text-muted">Haz clic en una pregunta para ver la respuesta.</p>
+</section>
+
+
+<section class="mb-5">
+<div class="accordion" id="faqAccordion">
+<% const faqs = [
+{q: '¿Cómo creo una cuenta en GamblinHub?', a: 'Para crear una cuenta haz clic en Registrarse, completa tus datos (nombre, email y contraseña) y verifica tu correo. Si tienes problemas, contacta a soporte@gamblinhub.org.'},
+{q: '¿Qué métodos de pago aceptan?', a: 'Aceptamos tarjetas de crédito/débito (Visa, MasterCard), transferencias y monederos electrónicos según tu región.'},
+{q: '¿Cuánto tarda un retiro?', a: 'Los retiros pueden tardar entre 24 horas y 5 días hábiles dependiendo del método.'},
+{q: '¿Qué hago si olvido mi contraseña?', a: 'Ve a la página de inicio de sesión y haz clic en "¿Olvidaste tu contraseña?".'},
+{q: '¿Necesito verificar mi identidad (KYC)?', a: 'Sí, en ciertos casos solicitamos verificación de identidad. Sigue las instrucciones en tu panel.'},
+{q: '¿Cuál es la política sobre edad mínima?', a: 'Debes ser mayor de edad según la legislación de tu país para usar GamblinHub.'},
+{q: '¿Cómo funciona la suscripción y sus beneficios?', a: 'Nuestra suscripción ofrece ventajas como bonos exclusivos y soporte prioritario.'},
+{q: '¿Qué medidas de seguridad usan para mi cuenta?', a: 'Usamos encriptación TLS, monitoreo y 2FA. Activa 2FA para mayor seguridad.'},
+{q: '¿Cómo reporto un problema técnico o un error?', a: 'Envía un email a soporte@gamblinhub.org con descripción y capturas de pantalla.'},
+{q: '¿Ofrecen ayuda para el juego responsable?', a: 'Sí. Tenemos límites de depósito, autoexclusión y recursos de ayuda.'},
+{q: '¿Puedo transferir saldo entre usuarios?', a: 'No permitimos transferencias directas entre cuentas por seguridad y cumplimiento.'},
+{q: '¿Cómo puedo contactar soporte de forma urgente?', a: 'Usa soporte@gamblinhub.org con "URGENTE" en el asunto.'}
+]; %>
+
+
+<% faqs.forEach((item, idx) => { %>
+<div class="accordion-item faq-card mb-2">
+<h2 class="accordion-header" id="heading<%= idx %>">
+<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= idx %>" aria-expanded="false" aria-controls="collapse<%= idx %>">
+<%= (idx+1) + '. ' + item.q %>
+</button>
+</h2>
+<div id="collapse<%= idx %>" class="accordion-collapse collapse" aria-labelledby="heading<%= idx %>" data-bs-parent="#faqAccordion">
+<div class="accordion-body"><%= item.a %></div>
+</div>
+</div>
+<% }) %>
+
+
+</div>
+</section>
+
+
+<section class="text-center">
+<p class="mb-2">¿No encuentras lo que buscas?</p>
+<div class="d-flex justify-content-center gap-3">
+<button class="btn btn-outline-primary" onclick="window.location.href='mailto:soporte@gamblinhub.org'">Contactar soporte</button>
+<button class="btn btn-outline-secondary" onclick="window.location.href='/help'">Volver a Ayuda</button>
+</div>
+</section>
+
+
+</main>
+</div>
+
+
+<!-- Footer -->
+<footer class="app-dark-bg text-center p-3 mt-auto">
+<p class="mb-1">¿Tienes preguntas? Escríbenos a <a href="mailto:soporte@gamblinhub.org" class="text-primary fw-bold">soporte@gamblinhub.org</a></p>
+<p class="mb-0 text-secondary">© 2025 GamblinHub</p>
+</footer>
+</div>
+</body>
+</html>

@@ -16,8 +16,8 @@ import resultsRouter from "./routes/results.js";
 import settingsRouter from "./routes/settings.js";
 import subscriptionRouter from "./routes/subscription.js";
 import apiUsers from "./routes/apiUsers.js";
+import faqRouter from "./routes/faq.js";
 import rouletteRoutes from "./routes/roulette.js"
-
 const app = express();
 
 // Necesario para rutas absolutas
@@ -64,7 +64,7 @@ app.use("/results", resultsRouter);
 app.use("/settings", settingsRouter);
 app.use("/subscription", subscriptionRouter);
 app.use("/api/users", apiUsers);
+app.use("/faq", faqRouter);
 app.use("/exclusive/roulette", rouletteRoutes);
-
 
 export default app;
