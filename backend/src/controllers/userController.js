@@ -283,6 +283,27 @@ export const deletePaymentMethod = async (req, res) => {
     }
 };
 
+export const deleteUser = async (req, res) => {
+    try {
+        const sessionUser = req.session.user;
+        if (!sessionUser) {
+            return res.status(401).json({ error: "No autorizado" });
+        }
+
+        // Eliminar usuario de la BD
+        await User.findByIdAndDelete(sessionUser.id);
+
+        // Cerrar sesión
+        req.session.destroy(() => {
+            return res.json({ success: true });
+        });
+
+    } catch (err) {
+        console.error("Error eliminando usuario:", err);
+        return res.status(500).json({ error: "Error en el servidor" });
+    }
+};
+
 export const purchaseSubscription = async (req, res) => {
     try {
         const sessionUser = req.session.user;
