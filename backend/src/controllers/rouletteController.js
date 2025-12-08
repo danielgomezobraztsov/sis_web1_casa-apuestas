@@ -4,23 +4,37 @@ import RouletteBet from "../models/rouletteBet.js";
 export const playRoulette = async (req, res) => {
     try {
         const userId = req.session.user?.id;
-        if (!userId) return res.status(401).json({ error: "Not authenticated" });
+        if (!userId) {
+            return res.status(401).json({ error: "Not authenticated" });
+        }
 
         const { amount, selection } = req.body;
 
-        if (!amount || amount <= 0 || !["red", "black", "green"].includes(selection)) {
-            return res.status(400).json({ error: "Invalid bet" });
+        // ❌ Validación de apuesta
+        if (!amount || amount <= 0) {
+            return res.status(400).json({ error: "Invalid amount" });
+        }
+
+        if (!["red", "black", "green"].includes(selection)) {
+            return res.status(400).json({ error: "Invalid selection" });
         }
 
         const user = await User.findById(userId);
+
+        // ❌ Nuevo check: si el usuario tiene 0, ni intentamos restar
+        if (user.balance <= 0) {
+            return res.status(400).json({ error: "Your balance is 0. Add funds to play." });
+        }
+
+        // ❌ Check normal: si no tiene suficiente para amount
         if (user.balance < amount) {
             return res.status(400).json({ error: "Not enough balance" });
         }
 
-        // 🎯 Número 0–11 para coincidir con frontend de 12 segmentos
+        // 🎯 Número 0–11 para coincidir con el frontend
         const number = Math.floor(Math.random() * 12);
 
-        // Mapeo exacto de colores según el frontend
+        // 🎨 Mapeo exacto
         const colorMap = {
             0: "green",
             1: "red",
@@ -41,14 +55,12 @@ export const playRoulette = async (req, res) => {
         let win = false;
         let payout = 0;
 
-        // 🎉 Determine win/loss
+        // 🏆 Determinar resultado
         if (selection === color) {
             win = true;
-            // Probabilidades ajustadas para 12 números
-            // Verdes: 4 de 12 (33%), Rojo/negro: 8 de 12 (67%)
-            payout = color === "green" 
-                ? amount * 3   // Paga 3:1 para verde (4 verdes de 12)
-                : amount * 2;  // Paga 2:1 para rojo/negro (8 de 12)
+
+            // Payout adaptado a tus probabilidades
+            payout = (color === "green") ? amount * 3 : amount * 2;
 
             user.balance += payout;
         } else {
@@ -57,7 +69,7 @@ export const playRoulette = async (req, res) => {
 
         await user.save();
 
-        // Save bet
+        // Registrar apuesta
         await RouletteBet.create({
             userId,
             amount,
@@ -68,14 +80,14 @@ export const playRoulette = async (req, res) => {
             payout
         });
 
-        // Update session balance
+        // Actualizar sesión
         req.session.user.balance = user.balance;
         req.session.save();
 
         return res.json({
             success: true,
-            number,      // 0-11 para frontend
-            color,       // color exacto
+            number,
+            color,
             win,
             payout,
             newBalance: user.balance
