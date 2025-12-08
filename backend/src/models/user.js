@@ -50,8 +50,14 @@ const userSchema = new mongoose.Schema({
             cardholderName: String,
             cardType: String,
             createdAt: { type: Date, default: Date.now }
-        }
-    ]
+        },
+    ],
+
+    lastRouletteSpin: {
+        type: Number,  // almacenamos Date.now()
+        default: 0
+    }
+
 }, { timestamps: true });
 
 export default mongoose.model("User", userSchema);

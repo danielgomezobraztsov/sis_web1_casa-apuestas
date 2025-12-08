@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     console.log("📅 Consultando partidos FT para la fecha:", date);
 
     try {
-        // 🔥 ESTA ES LA CONSULTA CORRECTA (igual que tu curl)
+        // ESTA ES LA CONSULTA CORRECTA (igual que tu curl)
         const response = await axios.get(`${BASE_URL}/fixtures`, {
             params: {
                 date,

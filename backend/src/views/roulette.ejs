@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Exclusive Roulette</title>
+
+  <style>
+    body {
+      background: #0d0d14;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 40px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: #bb86fc;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #444;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: white;
+      text-decoration: none;
+      border: 1px solid #666;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #666;
+      transform: scale(1.05);
+    }
+
+    /* === CONTENEDOR GENERAL === */
+    .roulette-container {
+      width: 360px;
+      height: 360px;
+      margin: 20px auto;
+      position: relative;
+    }
+
+    /* FLECHA */
+    .pointer {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-bottom: 30px solid #ffeb3b;
+      z-index: 10;
+    }
+
+    /* RUEDA */
+    .wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      transition: transform 4s cubic-bezier(.1,.6,.1,1);
+      border: 8px solid #111;
+    }
+
+    /* SEGMENTO */
+    .segment {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      top: 50%;
+      left: 50%;
+      transform-origin: 0% 0%;
+    }
+
+    /* BOTONES */
+    .btn {
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+    }
+    .red { background: #e53935; }
+    .black { background: #333; }
+    .green { background: #2ecc71; }
+
+    .amount-box {
+      margin: 20px auto 10px;
+    }
+
+    input {
+      padding: 8px;
+      font-size: 1rem;
+      width: 110px;
+      border-radius: 5px;
+      border: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🔙 BACK BUTTON -->
+<a class="back-btn" href="/gamble">⬅ Back to Gambling</a>
+
+<h1>Exclusive Roulette 🎰</h1>
+
+<div class="roulette-container">
+  <div class="pointer"></div>
+  <div id="wheel" class="wheel"></div>
+</div>
+
+<div class="amount-box">
+  <label>Amount (€):</label>
+  <input id="amount" type="number" min="1" value="5">
+</div>
+
+<div>
+  <button class="btn red" onclick="spin('red')">Bet Red</button>
+  <button class="btn black" onclick="spin('black')">Bet Black</button>
+  <button class="btn green" onclick="spin('green')">Bet Green</button>
+</div>
+
+<h2 id="resultText"></h2>
+
+<script>
+  const wheel = document.getElementById("wheel");
+  let currentRotation = 0;
+
+  /* === 12 SEGMENTOS — 4 RED, 4 BLACK, 4 GREEN === */
+  const colors = [
+    "red","black","green",
+    "red","black","green",
+    "red","black","green",
+    "red","black","green"
+  ];
+
+  const angleStep = 360 / 12;
+
+  colors.forEach((color, i) => {
+    const seg = document.createElement("div");
+    seg.classList.add("segment");
+    seg.style.background = color;
+    seg.style.transform = `rotate(${i * angleStep}deg) skewY(${90 - angleStep}deg)`;
+    wheel.appendChild(seg);
+  });
+
+  /* === SPIN CON SINCRONIZACIÓN REAL BACKEND === */
+  async function spin(selection) {
+    const amount = Number(document.getElementById("amount").value);
+    if (!amount || amount <= 0) return alert("Enter a valid amount");
+
+    const res = await fetch("/exclusive/roulette/play", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount, selection })
+    });
+
+    const data = await res.json();
+    if (!data.success) return alert(data.error);
+
+    let backendColor = data.color;  
+    let backendNumber = data.number;
+    let win = data.win;
+    let payout = data.payout;
+
+    /* === ENCONTRAR EL SEGMENTO CORRECTO === */
+    const index = colors.findIndex(c => c === backendColor);
+
+    const targetAngle = index * angleStep;
+    const spins = 8 * 360;
+
+    currentRotation += spins + (360 - targetAngle);
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(() => {
+      document.getElementById("resultText").innerHTML = `
+        Number: <b>${backendNumber}</b> (${backendColor})<br>
+        ${win ? "🎉 You WON! +€" + payout : "❌ You lost"}
+      `;
+    }, 4100);
+  }
+</script>
+
+</body>
+</html>
