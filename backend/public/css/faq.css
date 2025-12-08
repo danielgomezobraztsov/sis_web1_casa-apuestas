@@ -1,0 +1,111 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    background-image: url("../imagenes/background.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+header.app-dark-bg {
+    background-color: #1a1a1a;
+    color: white;
+    border-bottom: 1px solid #333;
+}
+
+aside.app-dark-bg {
+    background-color: #1a1a1ae9;
+    border-right: 1px solid #333333fe;
+    min-width: 220px;
+    max-width: 220px;
+}
+
+
+/* Estilos para los botones */
+.btn-header-outline {
+    background-color: rgb(39, 21, 56);
+    color: #ffffff;
+    border: 1px solid #333;
+}
+
+.btn-header-outline:hover {
+    background-color: rgb(55, 29, 79);
+    border-color: #444;
+    transform: scale(1.05);
+}
+
+.btn-header-primary {
+    background-color: rgb(120, 20, 215);
+    border-color: rgb(120, 20, 215);
+    color: white;
+}
+
+.btn-header-primary:hover {
+    background-color: rgb(86, 14, 154);
+    border-color: rgb(53, 9, 94);
+    transform: scale(1.05);
+}
+
+#btnChangePhoto {
+    background-color: rgb(53, 9, 94);
+    border-color: rgb(86, 14, 154);
+    color: white;
+}
+
+#btnChangePhoto:hover {
+    background-color: rgb(86, 14, 154);
+    border-color: rgb(120, 20, 215);
+    transform: scale(1.05);
+}
+
+/* Estilos para las tarjetas y formularios */
+.card {
+    background-color: #1a1a1ae0;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.form-label {
+    color: #a0a0a0;
+}
+
+.form-control {
+    background-color: #252525;
+    color: #e0e0e0;
+    border: 1px solid #333;
+}
+
+.form-control:focus {
+    background-color: #333;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, .25);
+}
+
+/* Mantener fondo del acordeon */
+.accordion-button {
+    background-color: rgb(39, 21, 56);
+    color: #ffffff;
+}
+.accordion-button:not(.collapsed) {
+    background-color: rgb(55, 29, 79);
+    border-color: #444;
+}
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(204, 0, 255, 0.25);
+}
+.accordion-body {
+    background-color: #540f6384;
+    color: #e0e0e0;
+    border: 1px solid #33333386;
+    border-top: none;
+}
+.accordion-collapse {
+    background-color: transparent;
+}
+.accordion-item {
+    background-color: #1a1a1ae0 !important;
+    border: 1px solid #333 !important;
+}
+
+
