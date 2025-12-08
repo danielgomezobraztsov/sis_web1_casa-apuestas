@@ -119,6 +119,15 @@ function addFundsAmount(amount) {
             alert(`$${amount} added successfully! New balance: $${response.newBalance}`);
             addFundsModal.hide();
             currentCardForFunds = null;
+
+            const balanceEl = document.getElementById('user-balance');
+            if (balanceEl) {
+                balanceEl.textContent = '$' + response.newBalance;
+            }
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 200);
         },
         error: function(xhr) {
             alert("Error: " + (xhr.responseJSON?.error || "Error adding funds"));

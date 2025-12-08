@@ -39,28 +39,11 @@
             <main class="col p-3">
                 <div class="row g-4">
                     <div class="card p-5 app-dark-bg settings-card mx-auto" style="max-width:800px;">
-                        <h5 class="mt-4 mb-2">Apariencia</h5>
-                        <form id="settingsForm">
-                            <div class="mb-4 d-flex align-items-center justify-content-between">
-                                <label for="darkModeSwitch" class="form-label mb-0">Dark Mode</label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="darkModeSwitch">
-                                </div>
+                        <h2 class="mb-4 text-center">Ajustes de la Cuenta</h2>
+                            <div class="text-center mb-3">
+                                <strong>Saldo:</strong>
+                                <span id="user-balance"><%= user ? ('$' + (user.balance || 0)) : '$0' %></span>
                             </div>
-                            <div class="mb-4 d-flex align-items-center justify-content-between">
-                                <label for="fontSizeInput" class="form-label mb-0">Font Size</label>
-                                <input type="number" min="8" max="24" id="fontSizeInput" name="fontSize" value="11" class="form-control settings-font-input" style="width:80px;">
-                            </div>
-                            <hr>
-                            <h5 class="mt-4 mb-2">Notificaciones</h5>
-                            <div class="mb-4 d-flex align-items-center justify-content-between">
-                                <label for="emailNotifSwitch" class="form-label mb-0">Email Notifications</label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="emailNotifSwitch">
-                                </div>
-                            </div>
-                            <hr>
-                            
                             <h5 class="mt-4 mb-2">Metodos de Pago</h5>
                             <div id="paymentMethodsList" class="mb-3"></div>
                             <div class="d-flex gap-2 mb-3">
@@ -69,9 +52,6 @@
 
                             <hr>
 
-                            <div class="mt-5 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-header-primary px-4">Save Changes</button>
-                            </div>
                         </form>
                     </div>
                 </div>
