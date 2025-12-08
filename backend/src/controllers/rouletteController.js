@@ -21,6 +21,16 @@ export const playRoulette = async (req, res) => {
 
         const user = await User.findById(userId);
 
+        // Server-side subscription check (defense in depth)
+        const now = new Date();
+        const hasActiveSubscription =
+            user &&
+            (user.premium === true || (user.subscriptionEnd && new Date(user.subscriptionEnd) > now));
+
+        if (!hasActiveSubscription) {
+            return res.status(403).json({ error: "Subscription required to play roulette" });
+        }
+
         // ❌ Nuevo check: si el usuario tiene 0, ni intentamos restar
         if (user.balance <= 0) {
             return res.status(400).json({ error: "Your balance is 0. Add funds to play." });

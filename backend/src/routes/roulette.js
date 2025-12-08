@@ -1,13 +1,14 @@
 import express from "express";
 import { playRoulette } from "../controllers/rouletteController.js";
+import isLogged from "../middleware/isLogged.js";
+import isSubscribed from "../middleware/isSubscribed.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    if (!req.session.user) return res.redirect("/loginMenu");
+router.get("/", isLogged, isSubscribed, (req, res) => {
     res.render("roulette");
 });
 
-router.post("/play", playRoulette);
+router.post("/play", isLogged, isSubscribed, playRoulette);
 
 export default router;
