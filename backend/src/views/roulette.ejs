@@ -123,7 +123,7 @@ async function spinRoulette(selection) {
     const amount = Number(document.getElementById("amount").value);
     if (!amount || amount <= 0) return alert("Enter valid amount");
 
-    // 1️⃣ Pedir resultado REAL del servidor
+    // 1.Pedir resultado REAL del servidor
     const res = await fetch("/exclusive/roulette/play", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -136,21 +136,21 @@ async function spinRoulette(selection) {
     const backendNumber = data.number;
     const backendColor  = data.color;
 
-    // 2️⃣ Encontrar segmento que coincide con el número
+    // 2️.Encontrar segmento que coincide con el número
     const index = segmentData.findIndex(s => s.num === backendNumber);
     if (index === -1) return console.error("Valor inválido devolver backend:", backendNumber);
 
-    // 3️⃣ Calcular ángulo exacto para que Winwheel pare ahí
+    // 3️.Calcular ángulo exacto para que Winwheel pare ahí
     const stopAngle = (360 / 12) * index + (360 / 24);
 
     theWheel.stopAnimation(false);         // por si estaba girando
     theWheel.rotationAngle = 0;            // reiniciar
     theWheel.animation.stopAngle = stopAngle;
 
-    // 4️⃣ Girar
+    // 4️.Girar
     theWheel.startAnimation();
 
-    // 5️⃣ Mostrar resultado tras animación
+    // 5️.Mostrar resultado tras animación
     setTimeout(() => {
         document.getElementById("resultText").innerHTML = `
             Number: <b>${backendNumber}</b> (${backendColor})<br>
