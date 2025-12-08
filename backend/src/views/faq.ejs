@@ -1,83 +1,230 @@
 <!DOCTYPE html>
-<div class="d-flex gap-2">
-<button class="btn btn-header-outline" onclick="window.location.href='/'">Home</button>
-<button class="btn btn-header-outline" id="btnHome" onclick="window.location.href='/api/users/logout'; window.location.href='logMenu';">Log out</button>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - GamblinHub</title>
+    <link rel="icon" type="image/jpeg" href="/imagenes/favicon.png">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- CSS principal (contiene el fondo con ladrillos y tus estilos) -->
+    <link rel="stylesheet" href="/css/account.css">
+</head>
+
+<body>
+
+<div class="container-fluid min-vh-100 d-flex flex-column p-0">
+
+    <!-- Header -->
+    <header class="app-dark-bg d-flex justify-content-between align-items-center p-3">
+        <div class="fw-bold fs-4">GamblinHub</div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-header-outline" onclick="window.location.href='/'">Home</button>
+            <button class="btn btn-header-outline" onclick="window.location.href='/api/users/logout'; window.location.href='/logMenu';">Log out</button>
+        </div>
+    </header>
+
+    <div class="row flex-grow-1 g-0">
+
+        <!-- Sidebar -->
+        <aside class="col-auto app-dark-bg d-flex flex-column p-3">
+            <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/account'">Cuenta</button>
+            <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/subscription'">Subscripción</button>
+            <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/settings'">Ajustes</button>
+            <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/help'">Ayuda</button>
+            <button class="btn btn-header-primary mb-2 w-100">FAQ</button>
+        </aside>
+
+        <!-- Main -->
+        <main class="col p-4">
+            <div class="card p-4">
+                <h2 class="mb-4">Preguntas Frecuentes</h2>
+
+                <div class="accordion" id="faqAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading0">
+                            <!-- añadimos las clases de botón solicitadas al mismo elemento -->
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse0" aria-expanded="false" aria-controls="collapse0">
+                                <span class="text-primary fw-semibold">1. ¿Cómo creo una cuenta en GamblinHub?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse0" class="accordion-collapse collapse" aria-labelledby="heading0" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Para crear una cuenta haz clic en <strong>Registrarse</strong>, completa tus datos (nombre, email y contraseña) y verifica tu correo. Si tienes problemas, contacta a <a href="mailto:soporte@gamblinhub.org">soporte@gamblinhub.org</a>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading1">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                <span class="text-primary fw-semibold">2. ¿Qué métodos de pago aceptan?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Aceptamos tarjetas de crédito/débito (Visa, MasterCard), transferencias bancarias y monederos electrónicos según la región. Las opciones concretas aparecen al hacer un depósito.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading2">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                <span class="text-primary fw-semibold">3. ¿Cuánto tarda un retiro?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Los retiros suelen tardar entre 24 horas y 5 días hábiles, dependiendo del método. Transferencias bancarias suelen ser más lentas; monederos electrónicos, más rápidos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading3">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                <span class="text-primary fw-semibold">4. ¿Qué hago si olvido mi contraseña?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Ve a la página de inicio de sesión y haz clic en "¿Olvidaste tu contraseña?". Recibirás un email con instrucciones para restablecerla. Si no llega, revisa la carpeta de spam o contacta soporte.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading4">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                <span class="text-primary fw-semibold">5. ¿Necesito verificar mi identidad (KYC)?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí. Para cumplir normativas y evitar fraudes, podemos solicitar verificación de identidad en casos concretos (retiros grandes, seguridad). Sigue las instrucciones en tu panel de usuario.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading5">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                <span class="text-primary fw-semibold">6. ¿Cuál es la política sobre edad mínima?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Debes ser mayor de edad según la legislación de tu país para usar GamblinHub. No permitimos cuentas de menores; si detectamos una se desactivará y se gestionarán los fondos según la ley aplicable.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading6">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                <span class="text-primary fw-semibold">7. ¿Cómo funciona la suscripción y sus beneficios?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                La suscripción ofrece bonos exclusivos, límites personalizables, promociones y soporte prioritario. Puedes gestionar o cancelar la suscripción desde tu panel en "Subscripción".
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading7">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                <span class="text-primary fw-semibold">8. ¿Qué medidas de seguridad usan para mi cuenta?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Usamos encriptación TLS, monitorización de actividad y ofrecemos 2FA. Nunca compartas tu contraseña y activa 2FA para mayor protección.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading8">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                <span class="text-primary fw-semibold">9. ¿Cómo reporto un problema técnico o un error?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Envía un email a <a href="mailto:soporte@gamblinhub.org">soporte@gamblinhub.org</a> con descripción, capturas de pantalla y el navegador/dispositivo que usas. Nuestro equipo te asistirá.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading9">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                <span class="text-primary fw-semibold">10. ¿Ofrecen ayuda para el juego responsable?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse9" class="accordion-collapse collapse" aria-labelledby="heading9" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí. Disponemos de herramientas de juego responsable: límites de depósito, periodos de cool-off y autoexclusión. Contacta a soporte para ayuda personalizada.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading10">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                                <span class="text-primary fw-semibold">11. ¿Puedo transferir saldo entre usuarios?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Por seguridad y cumplimiento no permitimos transferencias directas entre cuentas. Consulta promociones que permitan compartir bonos o regalos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading11">
+                            <button class="accordion-button collapsed btn btn-header-outline mb-2 w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
+                                <span class="text-primary fw-semibold">12. ¿Cómo puedo contactar soporte de forma urgente?</span>
+                            </button>
+                        </h2>
+                        <div id="collapse11" class="accordion-collapse collapse" aria-labelledby="heading11" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Para asuntos urgentes escribe a <a href="mailto:soporte@gamblinhub.org">soporte@gamblinhub.org</a> con "URGENTE" en el asunto. Si crees que tu cuenta está comprometida, cambia tu contraseña y activa 2FA inmediatamente.
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- /.accordion -->
+
+                <!-- Sección solicitada: contacto rápido -->
+                <section class="text-center mt-4">
+                    <p class="mb-2">¿No encuentras lo que buscas?</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="btn btn-outline-primary" onclick="window.location.href='mailto:soporte@gamblinhub.org'">Contactar soporte</button>
+                    </div>
+                </section>
+
+            </div> <!-- /.card -->
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-dark-bg text-center p-3 mt-auto">
+        <p class="mb-1">Para más información visita 
+            <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" class="text-primary fw-bold">GamblingHub.org</a>
+        </p>
+        <p class="mb-0 text-secondary">© 2025 GamblinHub</p>
+    </footer>
+
 </div>
-</header>
 
-
-<div class="row flex-grow-1 g-0">
-<!-- Sidebar -->
-<aside class="col-auto app-dark-bg d-flex flex-column p-3">
-<button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/account'">Cuenta</button>
-<button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/subscription'">Subscripción</button>
-<button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/settings'">Ajustes</button>
-<button class="btn btn-header-primary mb-2 w-100">Ayuda</button>
-</aside>
-
-
-<!-- Main content -->
-<main class="col p-4">
-<section class="text-center mb-4">
-<h2 class="mb-2">Preguntas frecuentes — GamblinHub</h2>
-<p class="text-muted">Haz clic en una pregunta para ver la respuesta.</p>
-</section>
-
-
-<section class="mb-5">
-<div class="accordion" id="faqAccordion">
-<% const faqs = [
-{q: '¿Cómo creo una cuenta en GamblinHub?', a: 'Para crear una cuenta haz clic en Registrarse, completa tus datos (nombre, email y contraseña) y verifica tu correo. Si tienes problemas, contacta a soporte@gamblinhub.org.'},
-{q: '¿Qué métodos de pago aceptan?', a: 'Aceptamos tarjetas de crédito/débito (Visa, MasterCard), transferencias y monederos electrónicos según tu región.'},
-{q: '¿Cuánto tarda un retiro?', a: 'Los retiros pueden tardar entre 24 horas y 5 días hábiles dependiendo del método.'},
-{q: '¿Qué hago si olvido mi contraseña?', a: 'Ve a la página de inicio de sesión y haz clic en "¿Olvidaste tu contraseña?".'},
-{q: '¿Necesito verificar mi identidad (KYC)?', a: 'Sí, en ciertos casos solicitamos verificación de identidad. Sigue las instrucciones en tu panel.'},
-{q: '¿Cuál es la política sobre edad mínima?', a: 'Debes ser mayor de edad según la legislación de tu país para usar GamblinHub.'},
-{q: '¿Cómo funciona la suscripción y sus beneficios?', a: 'Nuestra suscripción ofrece ventajas como bonos exclusivos y soporte prioritario.'},
-{q: '¿Qué medidas de seguridad usan para mi cuenta?', a: 'Usamos encriptación TLS, monitoreo y 2FA. Activa 2FA para mayor seguridad.'},
-{q: '¿Cómo reporto un problema técnico o un error?', a: 'Envía un email a soporte@gamblinhub.org con descripción y capturas de pantalla.'},
-{q: '¿Ofrecen ayuda para el juego responsable?', a: 'Sí. Tenemos límites de depósito, autoexclusión y recursos de ayuda.'},
-{q: '¿Puedo transferir saldo entre usuarios?', a: 'No permitimos transferencias directas entre cuentas por seguridad y cumplimiento.'},
-{q: '¿Cómo puedo contactar soporte de forma urgente?', a: 'Usa soporte@gamblinhub.org con "URGENTE" en el asunto.'}
-]; %>
-
-
-<% faqs.forEach((item, idx) => { %>
-<div class="accordion-item faq-card mb-2">
-<h2 class="accordion-header" id="heading<%= idx %>">
-<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= idx %>" aria-expanded="false" aria-controls="collapse<%= idx %>">
-<%= (idx+1) + '. ' + item.q %>
-</button>
-</h2>
-<div id="collapse<%= idx %>" class="accordion-collapse collapse" aria-labelledby="heading<%= idx %>" data-bs-parent="#faqAccordion">
-<div class="accordion-body"><%= item.a %></div>
-</div>
-</div>
-<% }) %>
-
-
-</div>
-</section>
-
-
-<section class="text-center">
-<p class="mb-2">¿No encuentras lo que buscas?</p>
-<div class="d-flex justify-content-center gap-3">
-<button class="btn btn-outline-primary" onclick="window.location.href='mailto:soporte@gamblinhub.org'">Contactar soporte</button>
-<button class="btn btn-outline-secondary" onclick="window.location.href='/help'">Volver a Ayuda</button>
-</div>
-</section>
-
-
-</main>
-</div>
-
-
-<!-- Footer -->
-<footer class="app-dark-bg text-center p-3 mt-auto">
-<p class="mb-1">¿Tienes preguntas? Escríbenos a <a href="mailto:soporte@gamblinhub.org" class="text-primary fw-bold">soporte@gamblinhub.org</a></p>
-<p class="mb-0 text-secondary">© 2025 GamblinHub</p>
-</footer>
-</div>
 </body>
 </html>
