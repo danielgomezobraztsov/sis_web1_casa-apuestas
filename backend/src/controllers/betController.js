@@ -1,4 +1,5 @@
 import Bet from "../models/bet.js";
+import User from "../models/user.js";
 
 export const createBet = async (req, res) => {
   try {
