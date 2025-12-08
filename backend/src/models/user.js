@@ -44,6 +44,18 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    subscriptionPlan: {
+        type: String,
+        default: null
+    },
+    subscriptionStart: {
+        type: Date,
+        default: null
+    },
+    subscriptionEnd: {
+        type: Date,
+        default: null
+    },
     paymentMethods: [
         {
             cardNumber: String,
