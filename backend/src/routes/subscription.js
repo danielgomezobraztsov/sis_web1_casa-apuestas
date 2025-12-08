@@ -11,7 +11,6 @@ router.get("/", isLogged, async (req, res) => {
         let user = null;
 
         if (sessionUser && sessionUser.id) {
-            // Fetch fresh user data from DB so subscription fields are accurate
             user = await User.findById(sessionUser.id).lean();
         }
 
@@ -28,7 +27,6 @@ router.get("/", isLogged, async (req, res) => {
         res.render("subscription", { user, isSubscribed, subscriptionEnd });
     } catch (err) {
         console.error("Error loading subscription page:", err);
-        // Fallback: render page without subscription info
         const user = req.session.user || null;
         res.render("subscription", { user, isSubscribed: false, subscriptionEnd: null });
     }
