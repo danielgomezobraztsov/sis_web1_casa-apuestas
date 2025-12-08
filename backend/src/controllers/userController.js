@@ -282,3 +282,69 @@ export const deletePaymentMethod = async (req, res) => {
         return res.status(500).json({ error: "Error al eliminar método de pago" });
     }
 };
+
+export const purchaseSubscription = async (req, res) => {
+    try {
+        const sessionUser = req.session.user;
+        if (!sessionUser) {
+            return res.status(401).json({ error: "No autorizado" });
+        }
+
+        const { period } = req.body;
+        if (!period || !['monthly', 'yearly'].includes(period)) {
+            return res.status(400).json({ error: "Periodo inválido" });
+        }
+
+        const prices = { monthly: 15, yearly: 120 };
+        const price = prices[period];
+
+        const user = await User.findById(sessionUser.id);
+        if (!user) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        const now = new Date();
+        if (user.subscriptionEnd && user.subscriptionEnd > now) {
+            return res.status(400).json({ error: "Ya estás suscrito hasta " + user.subscriptionEnd.toISOString() });
+        }
+
+        if (user.balance < price) {
+            return res.status(400).json({ error: "Fondos insuficientes" });
+        }
+
+        const startDate = new Date();
+        let endDate = new Date(startDate);
+        if (period === 'monthly') {
+            endDate.setMonth(endDate.getMonth() + 1);
+        } else {
+            endDate.setFullYear(endDate.getFullYear() + 1);
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            sessionUser.id,
+            {
+                $inc: { balance: -price },
+                premium: true,
+                subscriptionPlan: "Premium",
+                subscriptionStart: startDate,
+                subscriptionEnd: endDate
+            },
+            { new: true }
+        );
+
+        req.session.user.balance = updatedUser.balance;
+        req.session.user.premium = updatedUser.premium;
+        req.session.user.subscriptionEnd = updatedUser.subscriptionEnd;
+        req.session.save();
+
+        return res.json({
+            success: true,
+            newBalance: updatedUser.balance,
+            subscriptionEnd: updatedUser.subscriptionEnd,
+            message: `Suscripción activa hasta ${updatedUser.subscriptionEnd.toISOString()}`
+        });
+    } catch (err) {
+        console.error("Error en purchaseSubscription:", err);
+        return res.status(500).json({ error: "Error en el servidor" });
+    }
+};
