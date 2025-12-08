@@ -1,5 +1,6 @@
 import Bet from "../models/bet.js";
 import User from "../models/user.js";
+import { getFixtureById } from "../services/footballApi.js";
 
 export const createBet = async (req, res) => {
   try {
@@ -10,11 +11,9 @@ export const createBet = async (req, res) => {
       return res.status(401).send("User not authenticated");
     }
 
-    // Obtener usuario con balance
     const user = await User.findById(userId);
     if (!user) return res.status(401).send("User not found");
 
-    // Convertir valores
     const amountNumber = Number(amount);
     let oddSelected = null;
 
@@ -22,17 +21,21 @@ export const createBet = async (req, res) => {
     else if (selection === "draw") oddSelected = Number(odd_draw);
     else if (selection === "away") oddSelected = Number(odd_away);
 
-    // Validaciones
     if (!oddSelected || amountNumber <= 0 || isNaN(amountNumber)) {
       return res.status(400).send("Invalid bet values");
     }
 
-    //VALIDAR SALDO SUFICIENTE
+    // VALIDAR SALDO
     if (user.balance < amountNumber) {
       return res.status(400).send("No tienes suficiente saldo para apostar.");
     }
 
-    //Buscar apuesta existente (mismo usuario + partido + selección)
+    // 🔥 OBTENER NOMBRES DEL PARTIDO
+    const fixtureData = await getFixtureById(fixture);
+    const homeTeam = fixtureData?.teams?.home?.name || "Equipo Local";
+    const awayTeam = fixtureData?.teams?.away?.name || "Equipo Visitante";
+
+    // Buscar apuesta existente
     const existingBet = await Bet.findOne({
       userId,
       fixtureId: fixture,
@@ -40,15 +43,15 @@ export const createBet = async (req, res) => {
     });
 
     if (existingBet) {
-      //Sumar a la apuesta existente
       existingBet.amount += amountNumber;
       existingBet.potentialWin = existingBet.amount * oddSelected;
       await existingBet.save();
     } else {
-      // 🆕 Crear nueva apuesta
       await Bet.create({
         userId,
         fixtureId: fixture,
+        homeTeam,
+        awayTeam,
         selection,
         odd: oddSelected,
         amount: amountNumber,
@@ -58,11 +61,9 @@ export const createBet = async (req, res) => {
       });
     }
 
-    //RESTAR DEL BALANCE DEL USUARIO
     user.balance -= amountNumber;
     await user.save();
 
-    //ACTUALIZAR SESIÓN
     req.session.user.balance = user.balance;
     req.session.save();
 
@@ -73,4 +74,3 @@ export const createBet = async (req, res) => {
     return res.status(500).send("Internal server error");
   }
 };
-

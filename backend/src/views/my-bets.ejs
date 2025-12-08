@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,12 +38,17 @@
       margin-top: .5rem;
     }
 
-     .back-btn {
-      position:absolute; top:20px; left:20px;
-      background:#444; padding:10px 18px; border-radius:6px;
-      color:white; text-decoration:none; border:1px solid #666;
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #444;
+      padding: 10px 18px;
+      border-radius: 6px;
+      color: white;
+      text-decoration: none;
+      border: 1px solid #666;
     }
-    
   </style>
 </head>
 
@@ -54,24 +60,43 @@
         My Bets
       </h1>
 
-      <% if (bets.length === 0) { %>
+      <% if (!groupedBets || Object.keys(groupedBets).length===0) { %>
         <p style="text-align:center; color:#aaa;">You have no bets yet.</p>
-      <% } %>
+        <% } %>
 
-      <% bets.forEach(bet => { %>
-        <div class="bet-item">
-          <div class="bet-title">
-            <%= bet.selection.toUpperCase() %> — Stake: €<%= bet.amount %>
-          </div>
 
-          <div class="bet-details">
-            <p>Odd: <%= bet.odd %></p>
-            <p>Potential Win: €<%= bet.potentialWin.toFixed(2) %></p>
-            <p>Status: <%= bet.status %></p>
-            <p>Date: <%= new Date(bet.createdAt).toLocaleString() %></p>
-          </div>
-        </div>
-      <% }) %>
+          <% Object.keys(groupedBets).forEach(fixtureId=> { %>
+
+            <div class="bet-item" style="margin-bottom: 2rem;">
+
+              <% const mainBet=groupedBets[fixtureId][0]; %>
+
+                <h2 class="bet-title" style="color:#00ffcc;">
+                  <%= mainBet.homeTeam %> vs <%= mainBet.awayTeam %>
+                </h2>
+
+                <% groupedBets[fixtureId].forEach(bet=> { %>
+                  <div class="bet-details" style="padding:1rem; border-bottom:1px solid #333;">
+                    <p><strong>Selección:</strong>
+                      <%= bet.selection.toUpperCase() %>
+                    </p>
+                    <p><strong>Stake:</strong> €<%= bet.amount %>
+                    </p>
+                    <p><strong>Cuota:</strong>
+                      <%= bet.odd %>
+                    </p>
+                    <p><strong>Potencial:</strong> €<%= bet.potentialWin.toFixed(2) %>
+                    </p>
+                    <p><strong>Status:</strong>
+                      <%= bet.status %>
+                    </p>
+                    <p><strong>Fecha:</strong>
+                      <%= new Date(bet.createdAt).toLocaleString() %>
+                    </p>
+                  </div>
+                  <% }) %>
+            </div>
+            <% }) %>
     </div>
   </main>
 </body>
