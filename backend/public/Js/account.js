@@ -111,7 +111,7 @@ $(document).ready(() => {
         }
 
         $.ajax({
-            url: "/api/users/delete",
+            url: "/api/users/deleteUser",
             method: "POST",
             success: function (response) {
                 alert("Tu cuenta ha sido eliminada correctamente.");
