@@ -16,6 +16,7 @@ import resultsRouter from "./routes/results.js";
 import settingsRouter from "./routes/settings.js";
 import subscriptionRouter from "./routes/subscription.js";
 import apiUsers from "./routes/apiUsers.js";
+import faqRouter from "./routes/faq.js";
 
 const app = express();
 
@@ -63,5 +64,6 @@ app.use("/results", resultsRouter);
 app.use("/settings", settingsRouter);
 app.use("/subscription", subscriptionRouter);
 app.use("/api/users", apiUsers);
+app.use("/faq", faqRouter);
 
 export default app;
