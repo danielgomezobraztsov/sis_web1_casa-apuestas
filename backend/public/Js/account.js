@@ -106,9 +106,20 @@ $(document).ready(() => {
 
     // 🔹 Eliminar cuenta
     btnDelete.on('click', () => {
-        if (confirm('¿Eliminar usuario? Esta acción no se puede deshacer.')) {
-            alert('Usuario eliminado');
-            // Aquí podrías hacer una llamada fetch() para eliminar en el backend
+        if (!confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción es irreversible.')) {
+            return;
         }
+
+        $.ajax({
+            url: "/api/users/delete",
+            method: "POST",
+            success: function (response) {
+                alert("Tu cuenta ha sido eliminada correctamente.");
+                window.location.href = "/logMenu"; // o "/"
+            },
+            error: function (xhr) {
+                alert("Error eliminando la cuenta: " + (xhr.responseJSON?.error || "Error desconocido"));
+            }
+        });
     });
 });
