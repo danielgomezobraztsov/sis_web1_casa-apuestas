@@ -57,22 +57,20 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
-        const { userName, password} = req.body;
+        const { userName, password } = req.body;
 
-        //Verificamos que hay datos
-        if(!userName || !password){
-            return res.status(400).send("Faltan campos obligatorios");
+        if (!userName || !password) {
+            return res.redirect("/logMenu?error=1");
         }
 
-        //Buscamos el usuario
-        const user = await User.findOne({ userName: userName });
-        if(!user){
-            return res.status(400).send("Usuario o contraseña incorrectos");
+        const user = await User.findOne({ userName });
+        if (!user) {
+            return res.redirect("/logMenu?error=1");
         }
-        //Comprobamos la contraseña
+
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch){
-            return res.status(400).send("Usuario o contraseña incorrectos");
+        if (!isMatch) {
+            return res.redirect("/logMenu?error=1");
         }
 
         req.session.user = {
@@ -84,13 +82,13 @@ export const loginUser = async (req, res) => {
             balance: user.balance,
             fechaNacimiento: user.fechaNacimiento,
             avatar: user.avatar
-        }
+        };
+
         return res.redirect("/");
 
-
-    }catch(err){
+    } catch (err) {
         console.error("ERROR REAL:", err);
-        return res.status(500).send("Error en el servidor");
+        return res.redirect("/logMenu?error=1");
     }
 };
 
