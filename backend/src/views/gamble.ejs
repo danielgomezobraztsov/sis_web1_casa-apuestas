@@ -64,7 +64,7 @@
     </nav>
 
     <footer class="sidebar-footer">
-      <p>09:11</p>
+      <p id="localTime"></p>
     </footer>
   </aside>
 
@@ -82,7 +82,6 @@
       </div>
     </header>
 
-   
     <section class="game-grid">
 
       <% if (!matches || matches.length === 0) { %>
@@ -113,5 +112,19 @@
 
     </section>
   </main>
+
+  <!-- 🕒 Script para mostrar hora real -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      document.getElementById("localTime").textContent = `${hours}:${minutes}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 60000);
+  </script>
+
 </body>
 </html>
