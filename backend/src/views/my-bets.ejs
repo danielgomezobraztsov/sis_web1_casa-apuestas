@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>My Bets</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamblinHub - My Bets</title>
+  <link rel="icon" type="image/jpeg" href="/imagenes/favicon.png">
   <link rel="stylesheet" href="/css/gamble.css">
   <style>
     .bet-list {
@@ -33,10 +36,18 @@
       font-size: .95rem;
       margin-top: .5rem;
     }
+
+     .back-btn {
+      position:absolute; top:20px; left:20px;
+      background:#444; padding:10px 18px; border-radius:6px;
+      color:white; text-decoration:none; border:1px solid #666;
+    }
+    
   </style>
 </head>
 
 <body>
+  <a class="back-btn" href="/gamble">⬅ Back to Gambling</a>
   <main>
     <div class="bet-list">
       <h1 style="text-align:center; margin-bottom:1rem; color:#00ffcc;">
@@ -64,4 +75,5 @@
     </div>
   </main>
 </body>
+
 </html>

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import isLogged from "../middleware/isLogged.js";
+// import isLogged from "../middleware/isLogged.js";
 
 
 const router = Router();
 
 
-router.get("/", isLogged, (req, res) => {
-res.render("faq");
+router.get("/", (req, res) => {
+    res.render("faq");
 });
 
 
