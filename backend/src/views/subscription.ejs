@@ -6,7 +6,6 @@
         <title>Usuario - GamblinHub</title>
         <link rel="icon" type="image/jpeg" href="/imagenes/favicon.png">
 
-
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -21,35 +20,35 @@
     
         <div class="container-fluid min-vh-100 d-flex flex-column p-0">
 
-            <!-- Header -->
             <header class="app-dark-bg d-flex justify-content-between align-items-center p-3">
                 <div class="fw-bold fs-4">GamblinHub</div>
                 <div class="d-flex gap-2">
                     <button class="btn btn-header-outline" id="btnHome" onclick="window.location.href='/'">Home</button>
-                    <button class="btn btn-header-outline" id="btnHome" onclick="window.location.href='/api/users/logout'; window.location.href='logMenu';">Log out</a></li>
+                    <button class="btn btn-header-outline" id="btnLogout" onclick="window.location.href='/api/users/logout'">Cerrar sesión</button>
+                </div>
             </header>
 
             <div class="row flex-grow-1 g-0">
-                <!-- Sidebar -->
                 <aside class="col-auto app-dark-bg d-flex flex-column p-3">
                     <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/account'">Cuenta</button>
                     <button class="btn btn-header-primary mb-2 w-100">Subscripción</button>
                     <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/settings'">Ajustes</button>
                     <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/help'">Ayuda</button>
-                    <button class="btn btn-header-outline mb-2 w-100" onclick="window.location.href='/faq'">FAQ</button>
                 </aside>
 
-                <!-- Main content -->
                 <main class="col p-3">
-                    <div class="row  justify-content-center align-items-stretch">
-                        <!-- Sección de planes de suscripción -->
+                    <div class="row justify-content-center align-items-stretch">
                         <div class="col-12">
                             <h2 class="mb-4 text-center">PLANES DE SUSCRIPCIÓN</h2>
+
+                            <div class="text-center mb-3">
+                                <strong>Saldo:</strong>
+                                <span id="user-balance"><%= user ? ('$' + (user.balance || 0)) : '$0' %></span>
+                            </div>
                             
-                            <!-- Selector mensual/anual -->
                             <div class="d-flex justify-content-center mb-4">
                                 <div class="btn-group" role="group" aria-label="Periodo de suscripción">
-                                    <input type="radio" class="btn-check" name="period" id="monthly" autocomplete="off" checked>
+                                    <input type="radio" class="btn-check" name="period" id="monthly" autocomplete="off" <% if (!typeof monthlySelected === 'undefined') { } %> checked>
                                     <label class="btn btn-outline-primary" for="monthly">Mensual</label>
                                     
                                     <input type="radio" class="btn-check" name="period" id="yearly" autocomplete="off">
@@ -78,7 +77,7 @@
 
                                 <!-- Tarjeta Premium -->
                                 <div class="col-md-4 d-flex justify-content-center">
-                                    <div class="card subscription-card premium-card text-center p-4">
+                                    <div class="card subscription-card premium-card text-center p-4 <%= (isSubscribed ? 'border-success' : '') %>">
                                         <h5 class="card-title mb-3">Premium</h5>
                                         <div class="text-center mb-3">
                                             <span class="h3">$15</span>
@@ -90,20 +89,23 @@
                                             <li>Bonificaciones exclusivas</li>
                                             <li>y más...</li>
                                         </ul>
-                                        <button class="btn btn-outline-primary w-100 mt-auto">Comprar ahora</button>
+
+                                        <% if (isSubscribed) { %>
+                                            <button class="btn btn-success w-100 mt-auto" disabled>
+                                                Suscrito hasta <%= subscriptionEnd ? (new Date(subscriptionEnd)).toLocaleDateString() : '—' %>
+                                            </button>
+                                        <% } else { %>
+                                            <button id="buyPremiumBtn" data-role="buy" class="btn btn-outline-primary w-100 mt-auto">Comprar ahora</button>
+                                        <% } %>
                                     </div>
                                 </div>
                             </div>
-
-
-                            
                         </div>
                     </div>
                     
                 </main>
             </div>
 
-            <!-- Footer -->
             <footer class="app-dark-bg text-center p-3 mt-auto">
                 <p class="mb-1">Para más información visita <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" class="text-primary fw-bold">GamblingHub.org</a></p>
                 <p class="mb-0 text-secondary">© 2025 GamblinHub</p>
