@@ -57,23 +57,29 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
-        const { userName, password} = req.body;
+        const { userName, password } = req.body;
 
         //Verificamos que hay datos
-        if(!userName || !password){
-            return res.status(400).send("Faltan campos obligatorios");
+        if (!userName || !password) {
+            req.session.loginError = "Faltan campos obligatorios";
+            return res.redirect("/logMenu");
         }
 
         //Buscamos el usuario
         const user = await User.findOne({ userName: userName });
-        if(!user){
-            return res.status(400).send("Usuario o contraseña incorrectos");
+        if (!user) {
+            req.session.loginError = "Usuario o contraseña incorrectos";
+            return res.redirect("/logMenu");
         }
         //Comprobamos la contraseña
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch){
-            return res.status(400).send("Usuario o contraseña incorrectos");
+        if (!isMatch) {
+            req.session.loginError = "Usuario o contraseña incorrectos";
+            return res.redirect("/logMenu");
         }
+
+        // Clear any previous login errors
+        if (req.session.loginError) delete req.session.loginError;
 
         req.session.user = {
             id: user._id,
@@ -84,13 +90,13 @@ export const loginUser = async (req, res) => {
             balance: user.balance,
             fechaNacimiento: user.fechaNacimiento,
             avatar: user.avatar
-        }
+        };
+
         return res.redirect("/");
-
-
-    }catch(err){
+    } catch (err) {
         console.error("ERROR REAL:", err);
-        return res.status(500).send("Error en el servidor");
+        req.session.loginError = "Error en el servidor. Intenta de nuevo más tarde.";
+        return res.redirect("/logMenu");
     }
 };
 

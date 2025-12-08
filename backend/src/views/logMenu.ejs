@@ -19,7 +19,6 @@
 
         <div class="container vh-100 position-relative">
 
-            <!-- Menú inicial -->
             <div class="card text-center p-4 mb-3" id="menuBox">
                 <h2 class="mb-3">Bienvenido</h2>
                 <div class="d-grid gap-2">
@@ -37,14 +36,16 @@
                 <img src="../imagenes/logMenuAside2.jpg" alt="imagenAside" >
             </aside>
             
-
-
-            <!-- Formularios -->
             <div id="formContainer" class="w-100" style="max-width: 400px;">
-                <!-- Log-in -->
                 <div class="card p-4 mb-3" id="loginBox">
                     <h2 class="mb-3 text-center">Log-in</h2>
-                    <!--Datos a rellenar en login -->
+
+                    <% if (typeof loginError !== 'undefined' && loginError) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= loginError %>
+                        </div>
+                    <% } %>
+
                     <form id="loginForm" action="/api/users/login" method="POST">
                         <div class="mb-3">
                             <label class="form-label">Nombre de usuario:</label>
@@ -61,10 +62,8 @@
                     </form>
                 </div>
 
-                <!-- Sign-in -->
                 <div class="card p-4 mb-3" id="signInBox">
                     <h2 class="mb-3 text-center">Sign-in</h2>
-                    <!-- Datos a rellenar en el registro -->
                     <form id="signInForm" action="/api/users/register" method="POST">
 
             <div class="mb-3">
@@ -115,7 +114,6 @@
             </div>
 
         </form>
-
 
                 </div>
             </div>
