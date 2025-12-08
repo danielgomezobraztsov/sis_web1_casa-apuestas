@@ -5,120 +5,57 @@
   <title>Exclusive Roulette</title>
 
   <style>
-    body {
-      background: #0d0d14;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 40px;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 20px;
-      color: #bb86fc;
-    }
+    body { background:#0d0d14; color:white; font-family:Arial; text-align:center; padding-top:40px; }
+    h1 { font-size:2.2rem; margin-bottom:20px; color:#bb86fc; }
 
     .back-btn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background: #444;
-      padding: 10px 18px;
-      border-radius: 6px;
-      font-size: 1rem;
-      color: white;
-      text-decoration: none;
-      border: 1px solid #666;
-      transition: 0.2s;
+      position:absolute; top:20px; left:20px;
+      background:#444; padding:10px 18px; border-radius:6px;
+      color:white; text-decoration:none; border:1px solid #666;
     }
 
-    .back-btn:hover {
-      background: #666;
-      transform: scale(1.05);
+    #canvasContainer {
+      margin:auto;
+      width:500px;
+      height:500px;
+      position:relative;
     }
 
-    /* === CONTENEDOR GENERAL === */
-    .roulette-container {
-      width: 360px;
-      height: 360px;
-      margin: 20px auto;
-      position: relative;
-    }
-
-    /* FLECHA */
+    /* Flecha de la parte superior */
     .pointer {
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 18px solid transparent;
-      border-right: 18px solid transparent;
-      border-bottom: 30px solid #ffeb3b;
-      z-index: 10;
+      position:absolute;
+      top:10px;
+      left:50%;
+      transform:translateX(-50%);
+      width:0;
+      height:0;
+      border-left:20px solid transparent;
+      border-right:20px solid transparent;
+      border-bottom:30px solid yellow;
+      z-index:10;
     }
 
-    /* RUEDA */
-    .wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      transition: transform 4s cubic-bezier(.1,.6,.1,1);
-      border: 8px solid #111;
-    }
+    .btn { padding:10px 20px; font-size:1.1rem; margin:10px; border:none; border-radius:6px; cursor:pointer; color:white; }
+    .red { background:#e53935; }
+    .black { background:#333; }
+    .green { background:#2ecc71; }
 
-    /* SEGMENTO */
-    .segment {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      top: 50%;
-      left: 50%;
-      transform-origin: 0% 0%;
-    }
-
-    /* BOTONES */
-    .btn {
-      padding: 10px 20px;
-      font-size: 1.1rem;
-      margin: 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      color: white;
-    }
-    .red { background: #e53935; }
-    .black { background: #333; }
-    .green { background: #2ecc71; }
-
-    .amount-box {
-      margin: 20px auto 10px;
-    }
-
-    input {
-      padding: 8px;
-      font-size: 1rem;
-      width: 110px;
-      border-radius: 5px;
-      border: none;
-      text-align: center;
+    #resultText {
+      font-size:1.4rem;
+      margin-top:20px;
     }
   </style>
 </head>
+
 <body>
 
-<!-- 🔙 BACK BUTTON -->
 <a class="back-btn" href="/gamble">⬅ Back to Gambling</a>
 
 <h1>Exclusive Roulette 🎰</h1>
 
-<div class="roulette-container">
-  <div class="pointer"></div>
-  <div id="wheel" class="wheel"></div>
+<div id="canvasContainer">
+    <div class="pointer"></div>
+    <canvas id="rouletteCanvas" width="500" height="500"></canvas>
 </div>
 
 <div class="amount-box">
@@ -127,70 +64,98 @@
 </div>
 
 <div>
-  <button class="btn red" onclick="spin('red')">Bet Red</button>
-  <button class="btn black" onclick="spin('black')">Bet Black</button>
-  <button class="btn green" onclick="spin('green')">Bet Green</button>
+  <button class="btn red" onclick="spinRoulette('red')">Bet Red</button>
+  <button class="btn black" onclick="spinRoulette('black')">Bet Black</button>
+  <button class="btn green" onclick="spinRoulette('green')">Bet Green</button>
 </div>
 
 <h2 id="resultText"></h2>
 
+<!-- GSAP + Winwheel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel/Winwheel.min.js"></script>
+
 <script>
-  const wheel = document.getElementById("wheel");
-  let currentRotation = 0;
+/* ============================================================
+   🎨 DEFINIR 12 SEGMENTOS IGUALES A TU BACKEND
+   ============================================================ */
+const segmentData = [
+  { num:1,  fill:"red" },
+  { num:2,  fill:"black" },
+  { num:0,  fill:"green" },
+  { num:3,  fill:"red" },
+  { num:4,  fill:"black" },
+  { num:5,  fill:"green" },
+  { num:6,  fill:"red" },
+  { num:7,  fill:"black" },
+  { num:8,  fill:"green" },
+  { num:9,  fill:"red" },
+  { num:10, fill:"black" },
+  { num:11, fill:"green" },
+];
 
-  /* === 12 SEGMENTOS — 4 RED, 4 BLACK, 4 GREEN === */
-  const colors = [
-    "red","black","green",
-    "red","black","green",
-    "red","black","green",
-    "red","black","green"
-  ];
+/* ============================================================
+   🎡 CREAR RULETA REAL CON WINWHEEL.JS
+   ============================================================ */
+let theWheel = new Winwheel({
+    'canvasId'   : 'rouletteCanvas',
+    'numSegments': 12,
+    'outerRadius': 230,
+    'textFontSize': 18,
+    'segments'   : segmentData.map(s => ({
+        'fillStyle': s.fill,
+        'text'     : s.num.toString()
+    })),
+    'animation' : {
+        'type'     : 'spinToStop',
+        'duration' : 4,
+        'spins'    : 8
+    }
+});
 
-  const angleStep = 360 / 12;
+/* ============================================================
+   🎯 FUNCIÓN PARA GIRAR SINCRONIZADO CON BACKEND
+   ============================================================ */
+async function spinRoulette(selection) {
 
-  colors.forEach((color, i) => {
-    const seg = document.createElement("div");
-    seg.classList.add("segment");
-    seg.style.background = color;
-    seg.style.transform = `rotate(${i * angleStep}deg) skewY(${90 - angleStep}deg)`;
-    wheel.appendChild(seg);
-  });
-
-  /* === SPIN CON SINCRONIZACIÓN REAL BACKEND === */
-  async function spin(selection) {
     const amount = Number(document.getElementById("amount").value);
-    if (!amount || amount <= 0) return alert("Enter a valid amount");
+    if (!amount || amount <= 0) return alert("Enter valid amount");
 
+    // 1️⃣ Pedir resultado REAL del servidor
     const res = await fetch("/exclusive/roulette/play", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount, selection })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount, selection })
     });
 
     const data = await res.json();
     if (!data.success) return alert(data.error);
 
-    let backendColor = data.color;  
-    let backendNumber = data.number;
-    let win = data.win;
-    let payout = data.payout;
+    const backendNumber = data.number;
+    const backendColor  = data.color;
 
-    /* === ENCONTRAR EL SEGMENTO CORRECTO === */
-    const index = colors.findIndex(c => c === backendColor);
+    // 2️⃣ Encontrar segmento que coincide con el número
+    const index = segmentData.findIndex(s => s.num === backendNumber);
+    if (index === -1) return console.error("Valor inválido devolver backend:", backendNumber);
 
-    const targetAngle = index * angleStep;
-    const spins = 8 * 360;
+    // 3️⃣ Calcular ángulo exacto para que Winwheel pare ahí
+    const stopAngle = (360 / 12) * index + (360 / 24);
 
-    currentRotation += spins + (360 - targetAngle);
-    wheel.style.transform = `rotate(${currentRotation}deg)`;
+    theWheel.stopAnimation(false);         // por si estaba girando
+    theWheel.rotationAngle = 0;            // reiniciar
+    theWheel.animation.stopAngle = stopAngle;
 
+    // 4️⃣ Girar
+    theWheel.startAnimation();
+
+    // 5️⃣ Mostrar resultado tras animación
     setTimeout(() => {
-      document.getElementById("resultText").innerHTML = `
-        Number: <b>${backendNumber}</b> (${backendColor})<br>
-        ${win ? "🎉 You WON! +€" + payout : "❌ You lost"}
-      `;
-    }, 4100);
-  }
+        document.getElementById("resultText").innerHTML = `
+            Number: <b>${backendNumber}</b> (${backendColor})<br>
+            ${data.win ? "🎉 You WON! +€" + data.payout : "❌ You lost"}
+        `;
+    }, 4200);
+}
 </script>
 
 </body>

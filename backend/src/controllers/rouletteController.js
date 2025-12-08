@@ -17,12 +17,26 @@ export const playRoulette = async (req, res) => {
             return res.status(400).json({ error: "Not enough balance" });
         }
 
-        // 🎯 0–36 actual result
-        const number = Math.floor(Math.random() * 37);
+        // 🎯 Número 0–11 para coincidir con frontend de 12 segmentos
+        const number = Math.floor(Math.random() * 12);
 
-        const color =
-            number === 0 ? "green" :
-            number <= 18 ? "red" : "black";
+        // Mapeo exacto de colores según el frontend
+        const colorMap = {
+            0: "green",
+            1: "red",
+            2: "black",
+            3: "red",
+            4: "black",
+            5: "green",
+            6: "red",
+            7: "black",
+            8: "green",
+            9: "red",
+            10: "black",
+            11: "green"
+        };
+
+        const color = colorMap[number];
 
         let win = false;
         let payout = 0;
@@ -30,10 +44,11 @@ export const playRoulette = async (req, res) => {
         // 🎉 Determine win/loss
         if (selection === color) {
             win = true;
-            payout =
-                color === "green"
-                    ? amount * 14
-                    : amount * 2;
+            // Probabilidades ajustadas para 12 números
+            // Verdes: 4 de 12 (33%), Rojo/negro: 8 de 12 (67%)
+            payout = color === "green" 
+                ? amount * 3   // Paga 3:1 para verde (4 verdes de 12)
+                : amount * 2;  // Paga 2:1 para rojo/negro (8 de 12)
 
             user.balance += payout;
         } else {
@@ -59,8 +74,8 @@ export const playRoulette = async (req, res) => {
 
         return res.json({
             success: true,
-            number,
-            color,
+            number,      // 0-11 para frontend
+            color,       // color exacto
             win,
             payout,
             newBalance: user.balance
