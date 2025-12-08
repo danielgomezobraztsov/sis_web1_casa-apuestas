@@ -11,6 +11,14 @@
   <aside id="sidebar">
     <div class="brand">
       <h2>GamblinHub</h2>
+
+      <!-- SALDO DEL USUARIO -->
+      <% if (user) { %>
+        <div class="balance-box" 
+             style="margin-top:10px; font-size:16px; font-weight:bold; color:#10ffb8;">
+          Balance: € <%= user.balance.toFixed(2) %>
+        </div>
+      <% } %>
     </div>
 
     <div class="user-section">
@@ -53,12 +61,12 @@
             <span>Blog</span>
           </a>
         </li>
+
         <li>
           <a href="/gamble/my-bets">
-          <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#a855f7"><path d="M120-120v-720h720v720H120Zm60-60h600v-600H180v600Zm90-90h420v-60H270v60Zm0-120h420v-60H270v60Zm0-120h420v-60H270v60Zm0-120h420v-60H270v60Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#a855f7"><path d="M120-120v-720h720v720H120Zm60-60h600v-600H180v600Zm90-90h420v-60H270v60Zm0-120h420v-60H270v60Zm0-120h420v-60H270v60Zm0-120h420v-60H270v60Z"/></svg>
             <span>My Bets</span>
           </a>
-
         </li>
       </ul>
     </nav>
@@ -106,7 +114,7 @@
     </section>
   </main>
 
-  <!-- 🕒 Script para mostrar hora real -->
+  <!--Script para mostrar hora real -->
   <script>
     function updateClock() {
       const now = new Date();
